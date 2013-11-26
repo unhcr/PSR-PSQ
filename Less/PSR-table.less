@@ -1,0 +1,522 @@
+.results {
+  .standard-body;
+
+  text-align: center;
+
+  & > * {
+    text-align: left;
+
+    [dir="rtl"] & {
+      text-align: right;
+    }
+  }
+}
+
+// ======
+// Tables
+// ======
+
+@TableBackground:         lighten(@BaseColour, 43%);
+@TableBackgroundAccent:   darken(@TableBackground, 5%);
+@TableBorderColour:       darken(@TableBackground, 15%);
+@TableBorderColourLight:  darken(@TableBackground, 8%);
+@TableBorder:             1px solid @TableBorderColour;  // Border around whole table
+@RowBorderMajor:          1px solid @TableBorderColour;  // Border between row sections (thead / tbody / tfoot)
+@RowBorderMinor:          1px solid @TableBorderColourLight;  // General border between rows
+@ColumnBorder:            1px solid @TableBorderColour;  // Vertical column divider border
+@CellHorizontalPadding:   3px;
+@CellVerticalPadding:     3px;
+@CellBackgroundInactive:  desaturate(darken(@TableBackground, 15%), 60%);
+@CellBackgroundAccent:    darken(@TableBackground, 5%);
+
+table.standard-table {
+  width: 100%;
+  background-color: @TableBackground;
+  border: @TableBorder;
+  // text-align: left;
+
+  // [dir="rtl"] & {
+  //   text-align: right;
+  // }
+
+  &.narrow {
+    width: 70%;
+    margin: 0 auto;
+  }
+
+  th, td {
+    padding: @CellVerticalPadding @CellHorizontalPadding;
+    vertical-align: middle;
+  }
+  // th elements in thead sections should be centred
+  // th elements in tbody and tfoot sections should be right-aligned (left-aligned in RTL
+  //  context)
+  thead > tr > th {
+    text-align: center;
+  }
+  tbody, tfoot {
+    &> tr {
+      &> th {
+        text-align: right;
+      }
+      [dir="rtl"] &> th {
+        text-align: left;
+      }
+    }
+  }
+
+  // Horizontal dividers
+  th, td {
+    border-top: @RowBorderMinor;
+  }
+  // Constrasting border at top of tfoot and each tbody
+  tbody, tfoot {
+    tr:first-child {
+      th, td {
+        border-top: @RowBorderMajor;
+      }
+    }
+  }
+  // No cell border on first row of table, whether thead exists or not
+  caption, colgroup {
+    &+ thead, &+ tbody {
+      tr:first-child {
+        th, td {
+          border-top: 0;
+        }
+      }
+    }
+  }
+  thead:first-child, tbody:first-child {
+    tr:first-child {
+      th, td {
+        border-top: 0;
+      }
+    }
+  }
+
+  // Vertical dividers
+  td, th {
+    border-left: @ColumnBorder;
+
+    &:first-child {
+      border-left: none;
+    }
+
+    [dir="rtl"] & {
+      border-left: none;
+      border-right: @ColumnBorder;
+    }
+
+    [dir="rtl"] &:first-child {
+      border-right: none;
+    }
+  }
+
+  td.sub-table {
+    padding: 0 5px 5px;
+  }
+
+  .sub-table table {
+    margin-top: 5px;
+    background-color: @TableBackgroundAccent;
+  }
+
+  // Suppress vertical dividers (allowing specific divider styling for individual columns)
+  .no-vertical-dividers {
+    td, th {
+      border-left: none;
+      border-right: none;
+    }
+  }
+
+  // Force vertical dividers (useful in cases, particularly involving rowspans, where column
+  //  borders are erroneously suppressed)
+  td, th {
+    &.force-vertical-dividers {
+      border-left: @ColumnBorder !important;
+      border-right: @ColumnBorder !important;
+    }
+  }
+}
+
+table.framework-table > tbody > tr > td {
+  padding-top: 10px;
+}
+table.framework-table > tbody > tr:first-child > td {
+  padding-top: 0;
+}
+
+caption {
+  padding: 12px 0 5px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+
+// ===============================
+// Styling for specific data types
+// ===============================
+
+// All numeric data
+td.numeric {
+  text-align: right;
+  input {
+    text-align: right;
+  }
+}
+
+// Column widths for various-sized integers
+@DigitWidth:  7px;
+@CommaWidth:  3px;
+// .cell-width(@DigitCount, @ColCount: 1) {
+//   width: ((@ColCount * ((@DigitWidth * @DigitCount) + (@CommaWidth * floor((@DigitCount - 1) / 3)))) +
+//            ((@ColCount - 1) * (2 * @CellHorizontalPadding)) + (@ColCount - 1));
+// }
+.cell-width(@DigitCount) {
+  width: ((@DigitWidth * @DigitCount) + (@CommaWidth * floor((@DigitCount - 1) / 3)) +
+          (2 * @CellHorizontalPadding) + 1px);
+}
+
+.digits-3 {
+  .cell-width(3);
+}
+.digits-4 {
+  .cell-width(4);
+}
+.digits-5 {
+  .cell-width(5);
+}
+.digits-6 {
+  .cell-width(6);
+}
+.digits-7 {
+  .cell-width(7);
+}
+.digits-8 {
+  .cell-width(8);
+}
+.digits-9 {
+  .cell-width(9);
+}
+.digits-10 {
+  .cell-width(10);
+}
+.digits-11 {
+  .cell-width(11);
+}
+.digits-12 {
+  .cell-width(12);
+}
+.digits-13 {
+  .cell-width(13);
+}
+.digits-14 {
+  .cell-width(14);
+}
+.digits-15 {
+  .cell-width(15);
+}
+
+// Classes for specific columns
+.inactive-cell {
+  background-color: @CellBackgroundInactive;
+}
+
+.centred {
+  text-align: center !important;
+}
+
+.flow-label {
+  width: 75px;
+}
+
+.population-type {
+  width: 240px;
+}
+
+.population-type-short {
+  width: 110px;
+}
+
+.table-number {
+  width: 40px;
+  text-align: center;
+}
+
+.sex-label {
+  width: 55px;
+}
+
+.location {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.origin {
+  width: 390px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.urban-rural {
+  width: 44px;
+  text-align: center;
+}
+
+.accommodation-type {
+  width: 44px;
+  text-align: center;
+}
+
+.displacement-status {
+  width: 125px;
+  text-align: center;
+}
+
+.ppg {
+  width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.refugee-like {
+  width: 56px;
+  // text-align: center;
+}
+
+.stateless-class {
+  width: 58px;
+  text-align: center;
+}
+
+.source {
+  width: 47px;
+  text-align: center;
+}
+
+.basis {
+  width: 47px;
+  text-align: center;
+}
+
+.year {
+  width: 30px;
+  text-align: center;
+}
+
+.male-row {
+  background-color: @CellBackgroundAccent;
+}
+
+// Accented columns
+.accent {
+  background-color: @CellBackgroundAccent;
+}
+
+
+// =============
+// Pager styling
+// =============
+
+@TopPagerTopMargin:             5px;
+@BottomPagerTopMargin:          12px;
+@BottomPagerBottomMargin:       5px;
+
+@PagerButtonFontSize:           12px;
+@PagerButtonLineHeight:         15px;
+@PagerButtonSeparator:          1px solid white;
+@PagerButtonRadius:             5px;
+
+@NextPrevButtonPadding:         2px 10px;
+@NumericPagerButtonWidth:       3em;
+@NumericPagerButtonPadding:     2px 0;
+@CurrentPageButtonPadding:      1px 0;
+@CurrentPageButtonBorderWidth:  1px;
+@CurrentPageButtonBorder:       @CurrentPageButtonBorderWidth solid #555;
+
+@PageSizeDropDownMargin:        10px;
+@NewQueryButtonMargin:          15px;
+@NewQueryButtonPadding:         2px 15px;
+@ExportButtonMargin:            12px;
+@ExportButtonPadding:           2px 10px;
+@NoDataFontSize:                16px;
+@NoDataLineHeight:              4em;
+
+.top-pager {
+  display: inline-block;
+  margin-top: @TopPagerTopMargin;
+  font-size: 0;  // Collapse spurious white space
+
+  label {
+    float: left;
+    margin-right: @PageSizeDropDownMargin;
+    font-size: @BaseFontSize;
+
+    [dir="rtl"] & {
+      float: right;
+      margin-right: 0;
+      margin-left: @PageSizeDropDownMargin;
+    }
+  }
+
+  span input[type="submit"] {
+    float: left;
+    padding: @NextPrevButtonPadding;
+    border-radius: 0;
+    border-left: @PagerButtonSeparator;
+    font-size: @PagerButtonFontSize;
+    font-weight: bold;
+    line-height: @PagerButtonLineHeight;
+
+    [dir="rtl"] & {
+      float: right;
+      border-left: none;
+      border-right: @PagerButtonSeparator;
+    }
+
+    &:first-child {
+      border-left: none;
+      border-top-left-radius: @PagerButtonRadius;
+      border-bottom-left-radius: @PagerButtonRadius;
+
+      [dir="rtl"] & {
+        border-right: none;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: @PagerButtonRadius;
+        border-bottom-right-radius: @PagerButtonRadius;
+      }
+    }
+
+    &:last-child {
+      border-top-right-radius: @PagerButtonRadius;
+      border-bottom-right-radius: @PagerButtonRadius;
+
+      [dir="rtl"] & {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: @PagerButtonRadius;
+        border-bottom-left-radius: @PagerButtonRadius;
+      }
+    }
+  }
+
+  & > input[type="submit"] {
+    padding: @NewQueryButtonPadding;
+    margin-left: @NewQueryButtonMargin;
+    border-radius: @PagerButtonRadius;
+    font-size: @PagerButtonFontSize;
+    line-height: @PagerButtonLineHeight;
+
+    [dir="rtl"] & {
+      margin-left: 0;
+      margin-right: @NewQueryButtonMargin;
+    }
+  }
+
+  .no-data {
+    color: @ColouredTextColour;
+    font-size: @NoDataFontSize;
+    line-height: @NoDataLineHeight;
+  }
+}
+
+.bottom-pager {
+  display: inline-block;
+  margin-top: @BottomPagerTopMargin;
+  margin-bottom: @BottomPagerBottomMargin;
+  font-size: 0;  // Collapse spurious white space
+
+  span {
+    input {
+      float: left;
+      width: @NumericPagerButtonWidth;
+      padding: @NumericPagerButtonPadding;
+      margin: 0;
+      border-radius: 0;
+      border-left: @PagerButtonSeparator;
+      font-size: @PagerButtonFontSize;
+      line-height: @PagerButtonLineHeight;
+
+      [dir="rtl"] & {
+        float: right;
+        border-left: none;
+        border-right: @PagerButtonSeparator;
+      }
+    }
+
+    // Current page button
+    span {
+      float: left;
+      width: @NumericPagerButtonWidth;
+      padding: @CurrentPageButtonPadding;
+      background-color: @MainBackground; //@ButtonColourDisabled;
+      border: @CurrentPageButtonBorder;
+      font-size: @PagerButtonFontSize;
+      line-height: @PagerButtonLineHeight;
+      text-align: center;
+      cursor: text;
+
+      [dir="rtl"] & {
+        float: right;
+      }
+
+      & + input {
+        border-left: none;
+
+        [dir="rtl"] & {
+          border-right: none;
+        }
+      }
+    }
+
+    & > input:first-child, & > span:first-child {
+      border-top-left-radius: @PagerButtonRadius;
+      border-bottom-left-radius: @PagerButtonRadius;
+
+      [dir="rtl"] & {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: @PagerButtonRadius;
+        border-bottom-right-radius: @PagerButtonRadius;
+      }
+    }
+
+    & > input:first-child {
+      border-left: none;
+
+      [dir="rtl"] & {
+        border-left: none;
+      }
+    }
+
+    & > input:last-child, & > span:last-child {
+      border-top-right-radius: @PagerButtonRadius;
+      border-bottom-right-radius: @PagerButtonRadius;
+
+      [dir="rtl"] & {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: @PagerButtonRadius;
+        border-bottom-left-radius: @PagerButtonRadius;
+      }
+    }
+  }
+
+  & > input {
+    padding: @ExportButtonPadding;
+    margin-left: @ExportButtonMargin;
+    border-radius: @PagerButtonRadius;
+    font-size: @PagerButtonFontSize;
+    line-height: @PagerButtonLineHeight;
+    vertical-align: baseline;
+
+    [dir="rtl"] & {
+      margin-left: 0;
+      margin-right: @ExportButtonMargin;
+    }
+  }
+}

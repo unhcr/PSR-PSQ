@@ -1,0 +1,53 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="PSQ.master.cs" Inherits="PSQ" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+  <title></title>
+  <meta charset="UTF-8">
+  <link runat="server" rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+  <link runat="server" rel="icon" href="~/favicon.ico" type="image/ico" />
+  <link runat="server" href="~/Styles/PSR.css" rel="stylesheet" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <asp:ContentPlaceHolder id="HeaderPlaceHolder" runat="server" />
+</head>
+<body>
+  <form runat="server">
+    <div class="header">
+      <div class="header_caps">
+        <div class="header_back">
+          <img src="Images/header_logo.jpg" alt="UNHCR" title="UNHCR PSQ D2.0" />
+          <div class="navbar">
+            <a id="poc-overview" href="PSQ_POC.aspx">Overview</a>
+            <a id="poc-time-series" href="PSQ_TMS.aspx">Time Series</a>
+            <a id="demographics" href="PSQ_DEM.aspx">Demographics</a>
+            <a id="rsd" href="PSQ_RSD.aspx">Asylum Seekers</a>
+            <a id="frs" href="PSQ_FRS.aspx">Quick Queries</a>
+          </div>
+          <h1>Population Statistics</h1>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+<<<<<<< HEAD
+      <div class="navbar">
+        <a class="logo" href="Default.aspx">
+          <img src="img/UNHCR-Logo.png" alt="UNHCR" title="UNHCR PSQ R1.1" /> 
+          <span>UNHCR Population Statistics</span>
+        </a>
+        <a id="poc-overview" href="PSQ_POC.aspx">Overview</a>
+        <a id="poc-time-series" href="PSQ_TMS.aspx">Time Series</a>
+        <a id="demographics" href="PSQ_DEM.aspx">Demographics</a>
+        <a id="rsd" href="PSQ_RSD.aspx">Asylum Seekers</a>
+        <a id="frs" href="PSQ_FRS.aspx">Quick Queries</a>
+      </div> <!-- /.navbar -->
+=======
+>>>>>>> PSQ2-Development
+      <asp:ContentPlaceHolder id="BodyPlaceHolder" runat="server" />
+    </div> <!-- /.container -->
+    <script type="text/javascript" src="Scripts/jquery.js"></script>
+    <asp:ContentPlaceHolder id="ScriptPlaceHolder" runat="server" />
+  </form>
+</body>
+</html>

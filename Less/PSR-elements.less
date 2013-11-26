@@ -1,0 +1,146 @@
+// =======
+// Headers
+// =======
+
+h1 {
+  margin: 0.7em;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+h2 {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+// ==============================
+// Selection boxes and drop-downs
+// ==============================
+
+// @SelectBoxIndent:     0.3em;
+@SelectBorderColour:  lighten(@BaseColour, 30%);
+
+select {
+  border: 1px solid @SelectBorderColour;
+  background-color: @PageBackground;
+
+  // &[multiple] option {
+  //   text-indent: @SelectBoxIndent;
+  // }
+}
+
+// =======
+// Buttons
+// =======
+
+@ButtonTextColour:          white;
+@ButtonBaseColour:          darken(@BaseColour, 10%);
+@ButtonColourAccent:        lighten(@ButtonBaseColour, 15%);
+@ButtonColourDisabled:      #aaa;
+@ButtonBorderRadius:        4px;
+
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"]
+ {
+  background: @ButtonBaseColour;
+  color: @ButtonTextColour;
+  border-radius: @ButtonBorderRadius;
+
+  &:hover,
+  &:focus {
+    background-color: @ButtonColourAccent;
+    outline: none;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  &:active {
+    position: relative;
+    top: 1px;
+    left: 1px;
+  }
+
+  &.disabled, &[disabled="disabled"] {
+    background-color: @ButtonColourDisabled;
+    cursor: default;
+
+    &:active {
+      position: static;
+    }
+  }
+}
+
+// ==================================================
+// Template for labelled checkboxes and radio buttons
+// ==================================================
+
+@SelectorSize:   13px;
+
+// @indent - Spacing from selector to label
+// @display - Display property for label
+.labelled-selector (@indent: 0, @display: block) {
+  label {
+    display: @display;
+    padding-left: (@SelectorSize + @indent);
+    text-indent: -(@SelectorSize + @indent);
+
+    [dir="rtl"] & {
+      padding-left: 0;
+      padding-right: (@SelectorSize + @indent);
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+      position: relative;
+      vertical-align: bottom;
+      width: @SelectorSize;
+      height: @SelectorSize;
+      margin-right: @indent;
+      top: -1px;
+
+      [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: @indent;
+      }
+    }
+  }
+}
+
+// // ===================================
+// // Template for labelled radio buttons
+// // ===================================
+
+// @RadioSize:   13px;
+
+// // @indent - Spacing from checkbox to label
+// // @display - Display property for label
+// .labelled-radio (@indent: 0, @display: block) {
+//   label {
+//     display: @display;
+//     padding-left: (@RadioSize + @indent);
+//     text-indent: -(@RadioSize + @indent);
+
+//     [dir="rtl"] & {
+//       padding-left: 0;
+//       padding-right: (@RadioSize + @indent);
+//     }
+//   }
+
+//   input[type="radio"] {
+//     position: relative;
+//     top: 0;
+//     vertical-align: bottom;
+//     width: @RadioSize;
+//     height: @RadioSize;
+//     margin-right: @indent;
+
+//     [dir="rtl"] & {
+//       margin-right: 0;
+//       margin-left: @indent;
+//     }
+//   }
+// }

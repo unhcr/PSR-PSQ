@@ -1,0 +1,131 @@
+// =======================================
+// Standard unhcr.org themed header ribbon
+// =======================================
+
+@HeaderColour:            #005a98;  // Dark blue specified by UNHCR EPU.
+@HeaderHeight:            60px;     // EPU prefer 90px but this takes a lot of screen estate.
+@HeaderCapsImage:         url('../Images/header_caps.jpg');
+@HeaderBackgroundImage:   url('../Images/header_back.jpg');
+
+.header {
+  background-color: @HeaderColour;
+}
+
+.header_caps {
+  width: @PageWidth;
+  margin: 0 auto;
+  background-image: @HeaderCapsImage;
+  background-position: center top;
+  background-repeat: repeat-x;
+  background-size: auto @HeaderHeight;  // NB. does not work for IE7/8
+}
+
+.header_back {
+  position: relative;  // Creates containing block for absolute positioning of rest of header
+  height: @HeaderHeight;
+  margin: 0 10px;
+  background-image: @HeaderBackgroundImage;
+  background-position: center top;
+  background-repeat: repeat-x;
+  background-size: auto @HeaderHeight;  // NB. does not work for IE7/8
+}
+
+.header img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: @HeaderHeight;
+
+  [dir="rtl"] & {
+    left: auto;
+    right: 0;
+  }
+}
+
+.header h1 {
+  position: absolute;
+  right: 0;
+  color: white;
+
+  [dir="rtl"] & {
+    right: auto;
+    left: 0;
+  }
+}
+
+// ====================================================================
+// Top navigation bar, positioned on top of lower edge of header ribbon
+// ====================================================================
+
+@NavbarItemSpacing:   20px;   // Spacing between navbar items
+@NavbarTopPadding:    1px;    // Space above text in navbar
+@NavbarBottomPadding: 3px;    // Space below text in navbar
+@NavbarFontSize:      13px;
+@NavbarTextColour:    #ddd;
+@NavbarAccentColour:  white;  // For hover and active items
+
+// Centred tab navigation based on idea by Matthew James Taylor (http://matthewjamestaylor.com)
+
+.navbar {
+  position: relative;
+  top: @HeaderHeight - (@BaseLineHeight + @NavbarTopPadding + @NavbarBottomPadding);
+  right: 50%;
+  float: right;
+
+  [dir="rtl"] & {
+    right: auto;
+    left: 50%;
+    float: left;
+  }
+
+  a {
+    display: block;
+    position: relative;
+    left: 50%;
+    float: left;
+    padding: @NavbarTopPadding (@NavbarItemSpacing / 2) @NavbarBottomPadding;
+    border-left: 1px solid @NavbarTextColour;
+    font-size: @NavbarFontSize;
+    font-weight: bold;
+    color: @NavbarTextColour;
+    text-decoration: none;
+
+    [dir="rtl"] & {
+      left: auto;
+      right: 50%;
+      float: right;
+      border-left: none;
+      border-right: 1px solid @NavbarTextColour;
+    }
+
+    &:first-child {
+      border-left: none;
+
+      [dir="rtl"] & {
+        border-right: none;
+      }
+    }
+
+    &:hover, &:focus, &.active {
+      color: @NavbarAccentColour;
+    }
+  }
+}
+
+// ======================================
+// Template for page main body containers
+// ======================================
+
+@MainBackground:    lighten(@BaseColour, 45%);
+@MainPadding:       5px;
+@MainBorder:        none;//1px solid #ddd;
+@MainBorderRadius:  6px;
+
+.standard-body {
+  background-color: @MainBackground;
+  padding: @MainPadding;
+  border: @MainBorder;
+  border-top: none;
+  border-bottom-left-radius: @MainBorderRadius;
+  border-bottom-right-radius: @MainBorderRadius;
+}

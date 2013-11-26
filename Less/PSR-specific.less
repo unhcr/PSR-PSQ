@@ -1,0 +1,143 @@
+// ======================
+// Introductory text page
+// ======================
+
+.introduction {
+  .standard-body;
+
+  .main-content {
+    display: inline-block;
+    vertical-align: top;
+    width: 570px;
+    padding: 5px;
+    margin: 5px;
+
+    h2 {
+      margin: 1em 0 0.3em;
+    }
+
+    p {
+      font-size: 14px;
+      margin-bottom: 0.7em;
+      text-align: justify;
+    }
+
+    a {
+      color: (darken(@BaseColour, 20%));
+      font-weight: bold;
+      text-decoration: none;
+
+      &:hover {
+        color: @BaseColour;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .poc-definitions {
+    display: inline-block;
+    vertical-align: top;
+    width: 375px;
+    padding: 10px;
+    margin-right: -5px;
+    margin-bottom: -5px;
+    border-left: @MainBorder;
+
+    p {
+      font-size: 13px;
+      margin-bottom: 0.3em;
+      text-align: justify;
+
+      em {
+        font-weight: bold;
+      }
+    }
+
+    h2 {
+      margin: 0 0 0.3em;
+      text-align: center;
+    }
+  }
+}
+
+
+// ====================================
+// Frequently requested statistics page
+// ====================================
+
+div.frs {
+  .standard-body;
+
+  div {
+    width: 731px;
+    margin: auto;
+
+    div.residing, div.origin {
+      float: left;
+      width: 315px;
+      padding: 5px 25px;
+
+      h2 {
+        margin: 0.2em 0 0.6em;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      h3 {
+        margin: 0.5em 10px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      li {
+        margin: 0.3em 0;
+      }
+
+      a {
+        margin: 0 10px;
+        color: (darken(@BaseColour, 20%));
+        font-size: 14px;
+        // font-weight: bold;
+        text-decoration: none;
+
+        &:hover {
+          color: @BaseColour;
+          text-decoration: underline;
+        }
+
+      }
+
+      select {
+        width: 315px;
+        margin: 5px;
+      }
+    }
+
+    div.residing {
+      border-right: 1px solid grey;
+    }
+
+    div.others {
+      clear: both;
+      padding: 10px 0 20px;
+      text-align: center;
+
+      li {
+        margin: 0.6em 0;
+      }
+
+      a {
+        margin: 0 10px;
+        color: (darken(@BaseColour, 20%));
+        font-size: 14px;
+        text-decoration: none;
+
+        &:hover {
+          color: @BaseColour;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,238 @@
+// ===============================
+// Selection criteria page styling
+// ===============================
+
+@SelectionPanelHeight:      520px;
+@SelectionPanelTopMargin:   20px;
+@SelectionPanelColour:      lighten(@BaseColour, 38%);
+@LegendColour:              @ColouredTextColour;
+
+@YearPanelWidth:            80px;
+@CountryPanelWidth:         280px;
+@FormatPanelWidth:          190px;
+
+@CountryTreeHeight:         @SelectionPanelHeight - 28px;
+@CountryTreeIndent:         18px;
+@CountryListHeight:         @CountryTreeHeight - 27px;
+@CountryListIndent:         8px;
+@CountryBackground:         lighten(@BaseColour, 44%);
+@CountryBorderRadius:       2px;
+
+.selection {
+  .standard-body;
+
+  div.selection-container {
+    position: relative;
+    right: 50%;
+    float: right;
+    margin-top: @SelectionPanelTopMargin;
+
+    [dir="rtl"] & {
+      right: auto;
+      left: 50%;
+      float: left;
+    }
+  }
+
+  fieldset {
+    display: block;
+    position: relative;
+    left: 50%;
+    float: left;
+    vertical-align: top;
+    height: @SelectionPanelHeight;
+    padding: 30px 10px 10px;
+    margin: 0 5px 10px;
+    background-color: @SelectionPanelColour;
+    border-radius: 6px;
+
+    [dir="rtl"] & {
+      left: auto;
+      right: 50%;
+      float: right;
+    }
+
+    legend {
+      position: absolute;
+      top: 0;
+      padding: 5px 0;
+      color: @LegendColour;
+      font-size: 13px;
+    }
+  }
+
+  .year-selection {
+    width: @YearPanelWidth;
+    text-align: right;
+
+    [dir="rtl"] & {
+      text-align: left;
+    }
+
+    select {
+      display: block;
+      width: 55px;
+      margin: 5px auto;
+      border: none;
+      background-color: @CountryBackground;
+    }
+  }
+
+  .country-selection {
+    width: @CountryPanelWidth;
+
+    span {
+      display: block;
+      margin: 2px 0 10px;
+
+      label {
+        display: inline-block;
+        margin-right: 5px;
+
+        [dir="rtl"] & {
+          margin-right: 0;
+          margin-left: 5px;
+        }
+      }
+
+      input[type="radio"] {
+        position: relative;
+        vertical-align: bottom;
+        margin-right: 2px;
+
+        [dir="rtl"] & {
+          margin-right: 0;
+          margin-left: 2px;
+        }
+      }
+    }
+
+    input[type="text"].search {
+      display: block;
+      width: 260px;
+      margin: 0 auto 10px;
+      padding: 1px 8px;
+      border-radius: 10px;
+    }
+
+    div.selection-panel {
+      padding: 5px 0;
+      background-color: @CountryBackground;
+      border-radius: @CountryBorderRadius;
+
+      div {
+        height: @CountryTreeHeight - 10px;
+        padding: 0 5px;
+        overflow-y: auto;
+
+        &.country-list {
+          height: @CountryListHeight - 10px;
+
+          & > ul {
+            margin-left: @CountryListIndent;
+
+            [dir="rtl"] & {
+              margin-left: 0;
+              margin-right: @CountryListIndent;
+            }
+          }
+        }
+      }
+
+      ul {
+        margin-top: 2px;
+        margin-left: @CountryTreeIndent;
+
+        [dir="rtl"] & {
+          margin-left: 0;
+          margin-right: @CountryTreeIndent;
+        }
+
+        li {
+          list-style: none;
+          padding: 1px 0;
+        }
+
+        img {
+          width: @SelectorSize;
+          height: @SelectorSize;
+          vertical-align: top;
+          margin-top: 1px;
+          margin-right: @CountryTreeIndent - (@SelectorSize + 3px);
+          margin-left: -@CountryTreeIndent;
+
+          [dir="rtl"] & {
+            margin-left: @CountryTreeIndent - (@SelectorSize + 3px);
+            margin-right: -@CountryTreeIndent;
+          }
+        }
+      }
+
+      .labelled-selector(@CountryTreeIndent - @SelectorSize, inline-block);
+    }
+
+  }
+
+  .column-selection {
+    width: @FormatPanelWidth;
+
+    div {
+      margin-bottom: 15px;
+      .labelled-selector(4px);
+    }
+
+    h3 {
+      margin-bottom: 0.3em;
+    }
+
+    label {
+      margin-bottom: 3px;
+    }
+
+    .age-sex {
+      margin-top: -5px;
+      .labelled-selector(3px);
+
+      label {
+        margin-bottom: 1px;
+      }
+    }
+
+    .pop-types {
+      h3 {
+        margin-bottom: 0;
+      }
+
+      input[type="checkbox"] {
+        position: relative;
+        vertical-align: bottom;
+        top: -2px;
+        left: -16px;
+        margin-right: 3px;
+      }
+
+      td {
+        padding-left: 16px;
+      }
+
+      label {
+        display: inline;
+        padding-left: 0;
+        margin-left: -16px;
+        text-indent: -16px;
+        line-height: 19px;
+      }
+    }
+  }
+
+  .buttons {
+    clear: both;
+    text-align: center;
+
+    button, input[type="submit"] {
+      padding: 3px 20px;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+  }
+}

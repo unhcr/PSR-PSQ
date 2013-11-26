@@ -1,0 +1,33 @@
+// ===================================
+// Basic page structure and appearance
+// ===================================
+
+@BaseColour:          #117aff;
+
+@BaseFontFamily:      "Helvetica Neue", Helvetica, Arial, sans-serif;
+@BaseFontSize:        12px;
+@BaseLineHeight:      16px;
+@BaseTextColour:      #333333;
+@ColouredTextColour:  darken(@BaseColour, 20%);
+
+@PageWidth:           1000px;
+@PageBackground:      #fffffa;
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  font-family: @BaseFontFamily;
+  font-size: @BaseFontSize;
+  line-height: @BaseLineHeight;
+  color: @BaseTextColour;
+  background-color: @PageBackground;
+}
+
+.container {
+  width: @PageWidth;
+  margin-right: auto;
+  margin-left: auto;
+  *zoom: 1;  // IE hack
+}
