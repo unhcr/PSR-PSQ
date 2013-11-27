@@ -1,17 +1,11 @@
-// ===================================
-// Basic page structure and appearance
-// ===================================
-
-@BaseColour:          #117aff;
-
+// Variables
 @BaseFontFamily:      "Helvetica Neue", Helvetica, Arial, sans-serif;
 @BaseFontSize:        12px;
 @BaseLineHeight:      16px;
 @BaseTextColour:      #333333;
-@ColouredTextColour:  darken(@BaseColour, 20%);
-
+@BaseColour:          #117aff;
+@PageBackground:      #fffffd;
 @PageWidth:           1000px;
-@PageBackground:      #fffffa;
 
 html {
   overflow-y: scroll;
@@ -23,6 +17,14 @@ body {
   line-height: @BaseLineHeight;
   color: @BaseTextColour;
   background-color: @PageBackground;
+}
+
+h1 {
+  margin: 1em;
+  text-align: center;
+  color: (darken(@BaseColour, 20%));
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .container {

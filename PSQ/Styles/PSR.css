@@ -134,38 +134,11 @@ body {
   background-color: #fffffd;
 }
 h1 {
-  margin: 0.7em;
+  margin: 1em;
+  text-align: center;
+  color: #004baa;
   font-size: 20px;
   font-weight: bold;
-  text-align: center;
-}
-.header {
-  background-color: #005a98;
-}
-.header_caps {
-  width: 1000px;
-  margin: 0 auto;
-  background-image: url('../Images/header_caps.jpg');
-  background-position: center top;
-  background-repeat: repeat-x;
-}
-.header_back {
-  position: relative;
-  height: 60px;
-  margin: 0 10px;
-  background-image: url('../Images/header_back.jpg');
-  background-position: center top;
-  background-repeat: repeat-x;
-}
-.header img {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-.header h1 {
-  position: absolute;
-  right: 0;
-  color: white;
 }
 .container {
   width: 1000px;
@@ -174,33 +147,48 @@ h1 {
   *zoom: 1;
 }
 .navbar {
-  display: inline-block;
-  position: relative;
-  left: 50%;
-  top: 41px;
-  float: left;
+  height: 26px;
+  padding: 2px;
+  margin-bottom: 10px;
+  border: 1px solid #003380;
+  border-radius: 8px;
+  background-color: #003380;
+  background-image: -moz-linear-gradient(top, #005ce6, #003380);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#005ce6), to(#003380));
+  background-image: -webkit-linear-gradient(top, #005ce6, #003380);
+  background-image: -o-linear-gradient(top, #005ce6, #003380);
+  background-image: linear-gradient(to bottom, #005ce6, #003380);
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff005ce6', endColorstr='#ff003380', GradientType=0);
 }
 .navbar a {
   display: inline-block;
-  position: relative;
-  right: 50%;
-  float: left;
-  padding: 0 10px 3px;
-  border-left: 1px solid #dddddd;
-  font-size: 13.200000000000001px;
-  color: #dddddd;
+  height: 16px;
+  margin: 5px 10px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #cccccc;
   text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   vertical-align: middle;
 }
-.navbar a:first-child {
-  border-left: none;
-}
 .navbar a:hover {
-  color: white;
+  color: #f2f2f2;
 }
 .navbar a.active {
   color: white;
-  font-weight: bold;
+}
+.navbar a.logo {
+  margin: 5px 4px;
+}
+.navbar a.logo span {
+  color: white;
+  padding: 0 30px 15px 0;
+  vertical-align: 3px;
+}
+.navbar a.logo img {
+  height: 26px;
+  width: 26px;
+  margin: -5px 0;
 }
 .navtabs {
   margin-bottom: -1px;
@@ -250,7 +238,7 @@ h1 {
   background-color: #f7faff;
   padding: 5px;
   border: 1px solid #dddddd;
-  border-top: none;
+  border-radius: 5px;
 }
 table.standard-table {
   width: 100%;
@@ -880,43 +868,4 @@ div.frs div.others a:hover {
 .introduction .poc-definitions h2 {
   margin: 0 0 0.3em;
   text-align: center;
-}
-.country-selection {
-  height: 500px;
-  width: 300px;
-  overflow-y: auto;
-  padding: 0 5px;
-  border: 1px solid #aaaaaa;
-  background-color: #ecf5ff;
-}
-.country-selection ul {
-  margin-left: 18px;
-  margin-top: 2px;
-}
-.country-selection li {
-  list-style: none;
-  padding: 1px 0;
-}
-.country-selection img {
-  width: 13px;
-  height: 13px;
-  vertical-align: top;
-  margin-right: 2px;
-  margin-left: -18px;
-}
-.country-selection label {
-  display: inline-block;
-  padding-left: 18px;
-  text-indent: -18px;
-}
-.country-selection input[type="checkbox"] {
-  position: relative;
-  width: 13px;
-  height: 13px;
-  padding: 0;
-  margin: 0;
-  margin-right: 2px;
-  border: none;
-  vertical-align: bottom;
-  top: -1px;
 }

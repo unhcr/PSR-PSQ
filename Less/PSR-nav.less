@@ -12,57 +12,61 @@
 @NavbarColourLight:   darken(@NavbarBaseColour, 5%);
 @NavbarRGBADark:      argb(@NavbarColourDark);
 @NavbarRGBALight:     argb(@NavbarColourLight);
-@NavbarTextColour:    #dddddd;
+@NavbarTextColour:    #cccccc;
 @NavbarAccentColour:  lighten(@NavbarTextColour, 15%);
 
 .navbar {
-  display: inline-block;
-  position: relative;
-  left: 50%;
-  top: 41px;
-  float: left;
+  height: (@NavbarHeight - 2 * (@NavbarPadding + 1px));
+  padding: @NavbarPadding;
+  margin-bottom: @NavbarBottomMargin;
+  border: 1px solid @NavbarColourDark;
+  border-radius: (@NavbarHeight / 4);
+  background-color: @NavbarColourDark;
+  background-image: -moz-linear-gradient(top, @NavbarColourLight, @NavbarColourDark);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%,
+                                     from(@NavbarColourLight), to(@NavbarColourDark));
+  background-image: -webkit-linear-gradient(top, @NavbarColourLight, @NavbarColourDark);
+  background-image: -o-linear-gradient(top, @NavbarColourLight, @NavbarColourDark);
+  background-image: linear-gradient(to bottom, @NavbarColourLight, @NavbarColourDark);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@{NavbarRGBALight}',
+                                                     endColorstr='@{NavbarRGBADark}',
+                                                     GradientType=0);
 
   a {
     display: inline-block;
-    position: relative;
-    right: 50%;
-    float: left;
-    // height: @BaseLineHeight;
-    padding: 0 (@NavbarItemSpacing / 2) 3px;
-    border-left: 1px solid @NavbarTextColour;
-    font-size: (@BaseFontSize * 1.1);
+    height: @BaseLineHeight;
+    margin: (((@NavbarHeight - 2 * (@NavbarPadding + 1px)) - @BaseLineHeight) / 2)
+            (@NavbarItemSpacing / 2);
+    font-size: (@BaseFontSize * 1.25);
+    font-weight: bold;
     color: @NavbarTextColour;
     text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     vertical-align: middle;
 
-    &:first-child {
-      border-left: none;
-    }
-
     &:hover {
-      color: white;
+      color: @NavbarAccentColour;
     }
 
     &.active {
       color: white;
-      font-weight: bold;
     }
-    // &.logo {
-    //   margin: (((@NavbarHeight - 2 * (@NavbarPadding + 1px)) - @BaseLineHeight) / 2)
-    //           (@NavbarPadding * 2);
+    &.logo {
+      margin: (((@NavbarHeight - 2 * (@NavbarPadding + 1px)) - @BaseLineHeight) / 2)
+              (@NavbarPadding * 2);
 
-    //   span {
-    //     color: white;
-    //     padding: 0 30px 15px 0;
-    //     vertical-align: 3px;
-    //   }
+      span {
+        color: white;
+        padding: 0 30px 15px 0;
+        vertical-align: 3px;
+      }
 
-    //   img {
-    //     height: (@NavbarHeight - 2 * (@NavbarPadding + 1px));
-    //     width: (@NavbarHeight - 2 * (@NavbarPadding + 1px));
-    //     margin: ((@BaseLineHeight - (@NavbarHeight - 2 * (@NavbarPadding + 1px))) / 2) 0;
-    //   }
-    // }
+      img {
+        height: (@NavbarHeight - 2 * (@NavbarPadding + 1px));
+        width: (@NavbarHeight - 2 * (@NavbarPadding + 1px));
+        margin: ((@BaseLineHeight - (@NavbarHeight - 2 * (@NavbarPadding + 1px))) / 2) 0;
+      }
+    }
   }
 }
 
@@ -141,6 +145,5 @@
   background-color: @MainBackground;
   padding: @MainPadding;
   border: 1px solid @MainBorderColour;
-  border-top: none;
-  // border-radius: @MainBorderRadius;
+  border-radius: @MainBorderRadius;
 }
