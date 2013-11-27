@@ -99,7 +99,7 @@
         groups above, but to whom UNHCR extends its protection and/or assistance services, based on humanitarian
         or other special grounds.
       </p>
-    </div style="float: right">
+    </div>
   </div>
 </asp:Content>
 
