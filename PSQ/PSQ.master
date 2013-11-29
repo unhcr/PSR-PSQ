@@ -26,7 +26,7 @@
     <div class="container">
       <div class="navbar">
         <a class="logo" href="Default.aspx">
-          <img src="img/UNHCR-Logo.png" alt="UNHCR" title="UNHCR PSQ R1.1.1" /> 
+          <img src="img/UNHCR-Logo.png" alt="UNHCR" title="UNHCR PSQ R1.1.2" /> 
           <span>UNHCR Population Statistics</span>
         </a>
         <a id="poc-overview" href="PSQ_POC.aspx">Overview</a>
