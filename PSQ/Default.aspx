@@ -47,14 +47,18 @@
       <h2>
         General notes</h2>
       <p>
-        In the 2012 statistics, a number of figures are not shown in this system but are displayed as asterisks
-        (*). These represent situations where the figures are being kept confidential to protect the anonymity
-        of persons of concern. Note that such figures are not included in any totals.
+        A number of statistics are not shown in this system but are displayed as asterisks (*). These represent
+        situations where the figures are being kept confidential to protect the anonymity of persons of concern.
+        Note that such figures are not included in any totals.
       </p>
       <p>
         On each page you have the option to download the data you have selected to a comma-separated variable
         (CSV) format file, from which you can import the data into a spreadsheet application such as Microsoft
         Excel and analyse it in greater depth.
+      </p>
+      <p>
+        UNHCR's Field Information and Coordination Support Section is responsible for this system. If you have any
+        questions or require further information, please email us at <a href="mailto:stats@unhcr.org">FICSS</a>.
       </p>
     </div>
     <div class="poc-definitions">
