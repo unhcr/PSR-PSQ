@@ -869,3 +869,21 @@ div.frs div.others a:hover {
   margin: 0 0 0.3em;
   text-align: center;
 }
+.recent-data {
+  width: 600px;
+  margin: 0 auto 20px;
+}
+.recent-data p {
+  font-size: 14px;
+  margin-bottom: 0.7em;
+  text-align: justify;
+}
+.recent-data p a {
+  color: #004baa;
+  font-weight: bold;
+  text-decoration: none;
+}
+.recent-data p a:hover {
+  color: #117aff;
+  text-decoration: underline;
+}

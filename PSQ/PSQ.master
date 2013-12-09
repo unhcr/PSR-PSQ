@@ -34,6 +34,9 @@
         <a id="demographics" href="PSQ_DEM.aspx">Demographics</a>
         <a id="rsd" href="PSQ_RSD.aspx">Asylum Seekers</a>
         <a id="frs" href="PSQ_FRS.aspx">Quick Queries</a>
+        <% if (DateTime.UtcNow > DateTime.Parse(ConfigurationManager.AppSettings["latestDataDate"].ToString())) { %>
+          <a id="latest-data" href="PSQ_LDT.aspx">Recent Data</a>
+        <% } %>
       </div> <!-- /.navbar -->
       <asp:ContentPlaceHolder id="BodyPlaceHolder" runat="server" />
     </div> <!-- /.container -->
