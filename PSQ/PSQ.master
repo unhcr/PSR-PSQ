@@ -3,51 +3,50 @@
 <html>
 <head runat="server">
   <title></title>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <link runat="server" rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
   <link runat="server" rel="icon" href="~/favicon.ico" type="image/ico" />
   <link runat="server" href="~/Styles/PSR.css" rel="stylesheet" type="text/css" />
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-  <asp:ContentPlaceHolder id="HeaderPlaceHolder" runat="server" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-44382307-1']);
+    _gaq.push(['_trackPageview']);
+    (function () {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  <asp:ContentPlaceHolder id="phH" runat="server" />
 </head>
 <body>
   <form runat="server">
     <div class="header">
       <div class="header_caps">
         <div class="header_back">
-          <img src="Images/header_logo.jpg" alt="UNHCR" title="UNHCR PSQ D2.0" />
+          <a href="Default.aspx">
+            <img src="Images/header_logo.jpg" alt="UNHCR" title="UNHCR PSQ D2.0"
+              onerror="this.onerror = null; this.src='Images/header_logo.jpg';" />
+          </a>
           <div class="navbar">
-            <a id="poc-overview" href="PSQ_POC.aspx">Overview</a>
-            <a id="poc-time-series" href="PSQ_TMS.aspx">Time Series</a>
-            <a id="demographics" href="PSQ_DEM.aspx">Demographics</a>
-            <a id="rsd" href="PSQ_RSD.aspx">Asylum Seekers</a>
-            <a id="frs" href="PSQ_FRS.aspx">Quick Queries</a>
-          </div>
+            <a id="poc-overview" href="PSQPOCS.aspx">Overview</a>
+            <a id="poc-time-series" href="PSQTMSS.aspx">Time Series</a>
+            <a id="demographics" href="PSQDEMS.aspx">Demographics</a>
+            <a id="rsd" href="PSQRSDS.aspx">Asylum Seekers</a>
+            <a id="frs" href="PSQFRS.aspx">Quick Queries</a>
+          </div> <!-- /.navbar -->
           <h1>Population Statistics</h1>
-        </div>
-      </div>
-    </div>
+        </div> <!-- /.header_back -->
+      </div> <!-- /.header_caps -->
+    </div> <!-- /.header -->
     <div class="container">
-<<<<<<< HEAD
-      <div class="navbar">
-        <a class="logo" href="Default.aspx">
-          <img src="img/UNHCR-Logo.png" alt="UNHCR" title="UNHCR PSQ R1.1" /> 
-          <span>UNHCR Population Statistics</span>
-        </a>
-        <a id="poc-overview" href="PSQ_POC.aspx">Overview</a>
-        <a id="poc-time-series" href="PSQ_TMS.aspx">Time Series</a>
-        <a id="demographics" href="PSQ_DEM.aspx">Demographics</a>
-        <a id="rsd" href="PSQ_RSD.aspx">Asylum Seekers</a>
-        <a id="frs" href="PSQ_FRS.aspx">Quick Queries</a>
-      </div> <!-- /.navbar -->
-=======
->>>>>>> PSQ2-Development
-      <asp:ContentPlaceHolder id="BodyPlaceHolder" runat="server" />
+      <asp:ContentPlaceHolder id="phB" runat="server" />
     </div> <!-- /.container -->
-    <script type="text/javascript" src="Scripts/jquery.js"></script>
-    <asp:ContentPlaceHolder id="ScriptPlaceHolder" runat="server" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <asp:ContentPlaceHolder id="phS" runat="server" />
   </form>
 </body>
 </html>

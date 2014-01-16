@@ -110,6 +110,119 @@ input[type="reset"]
   }
 }
 
+// ======================================
+// Collapsible tree of checkbox selectors
+// ======================================
+
+@TreeIndent:    16px;
+
+.tree-select {
+  ul {
+    margin-top: 2px;
+    margin-left: @TreeIndent;
+
+    [dir="rtl"] & {
+      margin-left: 0;
+      margin-right: @TreeIndent;
+    }
+  }
+
+  & > ul {
+    margin-top: 0;
+  }
+
+  li {
+    position: relative;  // Creates containing block for absolute positioning.
+    margin-bottom: 2px;
+  }
+
+  label.toggle {
+    position: absolute;
+    top: 2px;
+    left: -@TreeIndent;
+    width: @SelectorSize;
+    height: @SelectorSize;
+    background-image: url(../Images/collapse-r.png);
+    background-repeat: no-repeat;
+
+    [dir="rtl"] & {
+      left: auto;
+      right: -@TreeIndent;
+      background-image: url(../Images/collapse-l.png);
+    }
+
+    &.collapsed {
+      background-image: url(../Images/expand-r.png);
+
+      [dir="rtl"] & {
+        background-image: url(../Images/expand-l.png);
+      }
+    }
+
+    input {
+      opacity: 0;
+      filter: alpha(opacity=0);
+    }
+  }
+
+  label.select {
+    display: inline-block;
+    padding-left: @TreeIndent;
+
+    [dir="rtl"] & {
+      padding-left: 0;
+      padding-right: @TreeIndent;
+    }
+
+    input {
+      position: relative;
+      vertical-align: bottom;
+      width: @SelectorSize;
+      height: @SelectorSize;
+      margin-left: -@TreeIndent;
+      margin-right: (@TreeIndent - @SelectorSize);
+      top: -1px;
+
+      [dir="rtl"] & {
+        margin-left: (@TreeIndent - @SelectorSize);
+        margin-right: -@TreeIndent;
+      }
+    }
+  }
+
+  label.leaf {
+    display: none;
+  }
+}
+
+// =====================================
+// Searchable list of checkbox selectors
+// =====================================
+
+@ListIndent:    5px;
+
+.list-select {
+  ul {
+    margin-top: 3px;
+    margin-left: @ListIndent;
+
+    [dir="rtl"] & {
+      margin-left: 0;
+      margin-right: @ListIndent;
+    }
+  }
+
+  li {
+    margin-bottom: 2px;
+  }
+
+  .labelled-selector(5px, inline-block);
+
+  label.leaf {
+    display: none;
+  }
+}
+
 // // ===================================
 // // Template for labelled radio buttons
 // // ===================================

@@ -1,10 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/PSQ.master"
   Title="UNHCR Population Statistics" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
-<asp:Content ID="HeaderContent" ContentPlaceHolderID="HeaderPlaceHolder" Runat="Server">
-</asp:Content>
-
-<asp:Content ID="BodyContent" ContentPlaceHolderID="BodyPlaceHolder" Runat="Server">
+<asp:Content ID="BodyContent" ContentPlaceHolderID="phB" Runat="Server">
   <div class="main-body introduction">
     <h1>UNHCR Population Statistics</h1>
     <div class="main-content">
@@ -21,26 +18,26 @@
         the data by checking the boxes for only those data items by which you wish the data to be broken down.
       </p>
       <p>
-        In the <a href="PSQ_POC.aspx">Overview</a> page, each row of data presents the information about UNHCR's
+        In the <a href="PSQPOCS.aspx">Overview</a> page, each row of data presents the information about UNHCR's
         populations of concern for a given year and country of residence and/or origin. Figures for the different
         types of population are presented across the page.
       </p>
       <p>
-        The <a href="PSQ_TMS.aspx">Time Series</a> page presents the same data as the Overview page, but arranges
+        The <a href="PSQTMSS.aspx">Time Series</a> page presents the same data as the Overview page, but arranges
         the figures as a yearly time series across the page.
       </p>
       <p>
-        The <a href="PSQ_DEM.aspx">Demographics</a> page presents information about persons of concern broken
+        The <a href="PSQDEMS.aspx">Demographics</a> page presents information about persons of concern broken
         down by sex and age, as well as by location within the country of residence (where such information
         is available). Note that data broken down in this way is not always available, so it may not be possible
         to reconcile the figures on this page with those on the Overview and Time Series pages.
       </p>
       <p>
-        The <a href="PSQ_RSD.aspx">Asylum Seekers</a> page presents information about asylum applications in
+        The <a href="PSQRSDS.aspx">Asylum Seekers</a> page presents information about asylum applications in
         a given year and the progress of asylum seekers through the refugee status determination process.
       </p>
       <p>
-        The <a href="PSQ_FRS.aspx">Quick Queries</a> page contains a selection of links to data that are frequently
+        The <a href="PSQFRS.aspx">Quick Queries</a> page contains a selection of links to data that are frequently
         requested, bypassing the need to enter specific query criteria. Note that these queries will open in
         a new page in your browser.
       </p>
@@ -99,10 +96,10 @@
         groups above, but to whom UNHCR extends its protection and/or assistance services, based on humanitarian
         or other special grounds.
       </p>
-    </div style="float: right">
+    </div>
   </div>
 </asp:Content>
 
-<asp:Content ID="ScriptContent" ContentPlaceHolderID="ScriptPlaceHolder" Runat="Server">
+<asp:Content ID="ScriptContent" ContentPlaceHolderID="phS" Runat="Server">
   <script type="text/javascript" src="Scripts/PSQ.js"></script>
 </asp:Content>
