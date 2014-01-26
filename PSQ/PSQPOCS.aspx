@@ -7,16 +7,16 @@
   <asp:Label ID="lb1" runat="server" />
 
   <asp:SqlDataSource ID="dsYears" runat="server" 
-    ConnectionString="<%$ ConnectionStrings:PSR %>" 
-    ProviderName="<%$ ConnectionStrings:PSR.ProviderName %>" />
+    ConnectionString="<%$ ConnectionStrings:PSQ %>" 
+    ProviderName="<%$ ConnectionStrings:PSQ.ProviderName %>" />
 
   <asp:SqlDataSource ID="dsCountries" runat="server" 
-    ConnectionString="<%$ ConnectionStrings:PSR %>" 
-    ProviderName="<%$ ConnectionStrings:PSR.ProviderName %>" />
+    ConnectionString="<%$ ConnectionStrings:PSQ %>" 
+    ProviderName="<%$ ConnectionStrings:PSQ.ProviderName %>" />
 
   <asp:SqlDataSource ID="dsOrigins" runat="server" 
-    ConnectionString="<%$ ConnectionStrings:PSR %>" 
-    ProviderName="<%$ ConnectionStrings:PSR.ProviderName %>" />
+    ConnectionString="<%$ ConnectionStrings:PSQ %>" 
+    ProviderName="<%$ ConnectionStrings:PSQ.ProviderName %>" />
 
   <div class="selection">
     <div class="selection-container">
@@ -30,7 +30,7 @@
       </fieldset>
 
       <fieldset class="country-selection">
-        <legend>Country / territory of residence</legend>
+        <legend>Residing in</legend>
         <asp:RadioButtonList runat="server" ID="rblCS" RepeatDirection="Horizontal" RepeatLayout="Flow"
           AutoPostBack="true" OnSelectedIndexChanged="rblCS_SelectedIndexChanged">
           <asp:ListItem Text="Continents" Value="UNSD" Selected="True" />
@@ -38,7 +38,7 @@
           <asp:ListItem Text="List (search)" Value="LIST" />
         </asp:RadioButtonList>
         <asp:HiddenField runat="server" ID="hfC" Value="UNSD" />
-        <asp:ListView runat="server" ID="lvC" DataSourceID="dsCountries" DataKeyNames="CODE"
+        <asp:ListView runat="server" ID="lvC" DataSourceID="dsCountries" DataKeyNames="CODE,NAME,NODETYPE"
           OnDataBound="lvC_DataBound">
           <LayoutTemplate>
             <div runat="server" id="dvSC" visible="false" class="search">
@@ -66,7 +66,7 @@
       </fieldset>
 
       <fieldset class="country-selection">
-        <legend>Origin / Returned from</legend>
+        <legend>Originating / returned from</legend>
         <asp:RadioButtonList runat="server" ID="rblOS" RepeatDirection="Horizontal" RepeatLayout="Flow"
           AutoPostBack="true" OnSelectedIndexChanged="rblOS_SelectedIndexChanged">
           <asp:ListItem Text="Continents" Value="UNSD" Selected="True" />
@@ -74,7 +74,7 @@
           <asp:ListItem Text="List (search)" Value="LIST" />
         </asp:RadioButtonList>
         <asp:HiddenField runat="server" ID="hfO" Value="UNSD" />
-        <asp:ListView runat="server" ID="lvO" DataSourceID="dsOrigins" DataKeyNames="CODE"
+        <asp:ListView runat="server" ID="lvO" DataSourceID="dsOrigins" DataKeyNames="CODE,NAME,NODETYPE"
           OnDataBound="lvO_DataBound">
           <LayoutTemplate>
             <div runat="server" id="dvSO" visible="false" class="search">
@@ -106,21 +106,51 @@
         <div class="checkbox-list">
           <h3>Break down by:</h3>
           <asp:CheckBoxList ID="cblBD" runat="server" OnSelectedIndexChanged="cblBD_SelectedIndexChanged">
-            <asp:ListItem Text="Country / territory of residence " Value="RES" />
-            <asp:ListItem Text="Origin / Returned from" Value="OGN" />
+            <asp:ListItem Text="Residing in" Value="RES" />
+            <asp:ListItem Text="Originating / returned from" Value="OGN" />
+          </asp:CheckBoxList>
+        </div>
+        <div class="listbox-list">
+          <h3>Summarise by:</h3>
+          <label>Residing in
+            <asp:DropDownList ID="ddlRS" runat="server" Rows="1" OnSelectedIndexChanged="ddlRS_SelectedIndexChanged">
+              <asp:ListItem Text="Country / territory" Value="COUNTRY" />
+              <asp:ListItem Text="Sub-region" Value="UNSD_GSR" />
+              <asp:ListItem Text="Continent" Value="UNSD_MGR" />
+              <asp:ListItem Text="UNHCR bureau" Value="UNHCR_BUR" />
+              <asp:ListItem Text="UNHCR bureau / regional operation" Value="UNHCR_ROP" />
+            </asp:DropDownList>
+          </label>
+          <label>Originating / returned from
+            <asp:DropDownList ID="ddlOG" runat="server" Rows="1" OnSelectedIndexChanged="ddlOG_SelectedIndexChanged">
+              <asp:ListItem Text="Country / territory" Value="COUNTRY" />
+              <asp:ListItem Text="Sub-region" Value="UNSD_GSR" />
+              <asp:ListItem Text="Continent" Value="UNSD_MGR" />
+              <asp:ListItem Text="UNHCR bureau" Value="UNHCR_BUR" />
+              <asp:ListItem Text="UNHCR bureau / regional operation" Value="UNHCR_ROP" />
+            </asp:DropDownList>
+          </label>
+        </div>
+        <div class="checkbox-list population-types">
+          <h3>Include population types:</h3>
+          <asp:CheckBoxList ID="cblPT" runat="server" OnSelectedIndexChanged="cblPT_SelectedIndexChanged">
+            <asp:ListItem Text="Refugees" Value="RF" />
+            <asp:ListItem Text="Persons in a refugee-like situation" Value="RL" />
+            <asp:ListItem Text="Refugees (including refugee-like)" Value="RFT" />
+            <asp:ListItem Text="Asylum-seekers" Value="AS" />
+            <asp:ListItem Text="Returned refugees" Value="RT" />
+            <asp:ListItem Text="Internally displaced persons" Value="ID" />
+            <asp:ListItem Text="Persons in an IDP-like situation" Value="IL" />
+            <asp:ListItem Text="IDPs (including IDP-like)" Value="IDT" />
+            <asp:ListItem Text="Returned IDPs" Value="RD" />
+            <asp:ListItem Text="Stateless persons" Value="ST" />
+            <asp:ListItem Text="Others of concern" Value="OC" />
+            <asp:ListItem Text="Total population" Value="TPOC" />
           </asp:CheckBoxList>
         </div>
         <div class="checkbox-list">
-          <h3>Included population types:</h3>
-          <asp:CheckBoxList ID="cblPT" runat="server" OnSelectedIndexChanged="cblPT_SelectedIndexChanged">
-            <asp:ListItem Text="Refugees" Value="REF" />
-            <asp:ListItem Text="Asylum-seekers" Value="ASY" />
-            <asp:ListItem Text="Returned refugees" Value="RET" />
-            <asp:ListItem Text="Internally displaced persons" Value="IDP" />
-            <asp:ListItem Text="Returned IDPs" Value="RDP" />
-            <asp:ListItem Text="Stateless persons" Value="STA" />
-            <asp:ListItem Text="Others of concern" Value="OOC" />
-            <asp:ListItem Text="Total population" Value="POC" />
+          <asp:CheckBoxList ID="cblIN" runat="server" OnSelectedIndexChanged="cblIN_SelectedIndexChanged">
+            <asp:ListItem Text="Show UNHCR-assisted figures?" Value="HCRASS" />
           </asp:CheckBoxList>
         </div>
       </fieldset>
@@ -128,8 +158,7 @@
     </div> <!-- /.selection-container -->
 
     <div class="buttons">
-      <asp:Button ID="btSb" runat="server" Text="Submit" PostBackUrl="PSQPOCD.aspx" 
-        onclick="btSb_Click" />
+      <asp:Button ID="btSb" runat="server" Text="Submit" PostBackUrl="PSQPOCD.aspx" />
     </div> <!-- /.buttons -->
   </div> <!-- /.selection -->
 
@@ -140,7 +169,7 @@
   <script type="text/javascript">
     $(document).ready(function () {
       "use strict";
-      $("#poc-overview").addClass("active");
+      $("#lbtPOC").addClass("active");
     });
   </script>
 </asp:Content>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 
@@ -13,93 +14,171 @@ using System.Web.UI;
 [Serializable]
 public class QueryParameters
 {
-  public Dictionary<string, SortedSet<string>> Parameters { get; private set; }
+  Dictionary<string, SortedSet<string>> parameterSet;
 
   public SortedSet<string> this[string key]
   {
-    get { return Parameters[key]; }
+    get { return parameterSet[key]; }
   }
 
   public QueryParameters()
 	{
-    Parameters = new Dictionary<string, SortedSet<string>>();
+    parameterSet = new Dictionary<string, SortedSet<string>>();
   }
 
   public QueryParameters(string key, SortedSet<string> value)
   {
-    Parameters = new Dictionary<string, SortedSet<string>>();
-    Parameters.Add(key, value);
+    parameterSet = new Dictionary<string, SortedSet<string>>();
+    parameterSet.Add(key, value);
   }
 
   public QueryParameters(string key, string value)
   {
     var set = new SortedSet<string>();
     set.Add(value);
-    Parameters = new Dictionary<string, SortedSet<string>>();
-    Parameters.Add(key, set);
+    parameterSet = new Dictionary<string, SortedSet<string>>();
+    parameterSet.Add(key, set);
   }
 
   public QueryParameters(StateBag viewState)
   {
-    Parameters = (Dictionary<string, SortedSet<string>>)viewState["QueryParameters"];
+    parameterSet = (Dictionary<string, SortedSet<string>>)viewState["QueryParameters"];
 	}
-  
+
+  public bool ContainsKey(string key)
+  {
+    return parameterSet.ContainsKey(key) && parameterSet[key] != null &&
+      parameterSet[key].Count() > 0;
+  }
+
+  public bool ContainsEmptyKey(string key)
+  {
+    return parameterSet.ContainsKey(key) &&
+      (parameterSet[key] == null || parameterSet[key].Count() == 0);
+  }
+
+  public bool ContainsItem(string key, string item)
+  {
+    return parameterSet.ContainsKey(key) && parameterSet[key] != null &&
+      parameterSet[key].Contains(item);
+  }
+
   public void AddSet(string key, SortedSet<string> value)
   {
     try
     {
-      Parameters.Add(key, value);
+      parameterSet.Add(key, value);
     }
     catch (ArgumentException)
     {
-      Parameters[key] = value;
+      parameterSet[key] = value;
     }
   }
 
   public void RemoveSet(string key)
   {
-    Parameters.Remove(key);
+    parameterSet.Remove(key);
   }
 
   public void AddItem(string key, string value)
   {
-    if (Parameters.ContainsKey(key))
+    if (parameterSet.ContainsKey(key))
     {
-      Parameters[key].Add(value);
+      parameterSet[key].Add(value);
     }
     else
     {
       var set = new SortedSet<string>();
       set.Add(value);
-      Parameters.Add(key, set);
+      parameterSet.Add(key, set);
     }
   }
 
   public void RemoveItem(string key, string value)
   {
-    if (Parameters.ContainsKey(key))
+    if (parameterSet.ContainsKey(key))
     {
-      Parameters[key].Remove(value);
+      parameterSet[key].Remove(value);
     }
   }
 
-  public bool ContainsKey(string key)
+  public string CommaSeparatedList(string key)
   {
-    return Parameters.ContainsKey(key) && Parameters[key] != null;
+    if (parameterSet.ContainsKey(key))
+    {
+      var list = new StringBuilder(1000);
+      string sep = "";
+      foreach (string item in parameterSet[key])
+      {
+        list.Append(sep + item);
+        sep = ",";
+      }
+      return list.ToString();
+    }
+    else
+    {
+      return "";
+    }
+  }
+
+  public string QuotedCommaSeparatedList(string key)
+  {
+    if (parameterSet.ContainsKey(key))
+    {
+      var list = new StringBuilder(1000);
+      string sep = "";
+      foreach (string item in parameterSet[key])
+      {
+        list.Append(sep + "'" + item + "'");
+        sep = ",";
+      }
+      return list.ToString();
+    }
+    else
+    {
+      return "";
+    }
+  }
+
+  public string Alternative(string key, string item, string trueResult, string falseResult)
+  {
+    return (parameterSet.ContainsKey(key) && parameterSet[key].Contains(item)) ? trueResult : falseResult;
   }
 
   public void SaveToViewState(StateBag viewState)
   {
-    viewState["QueryParameters"] = Parameters;
+    viewState["QueryParameters"] = parameterSet;
   }
 
   public void RestoreFromViewState(StateBag viewState)
   {
-    Parameters = (Dictionary<string, SortedSet<string>>)viewState["QueryParameters"];
+    parameterSet = (Dictionary<string, SortedSet<string>>)viewState["QueryParameters"];
+  }
+
+  public override string ToString()
+  {
+    var result = new StringBuilder(2000);
+
+    if (parameterSet != null)
+    {
+      foreach (string key in parameterSet.Keys)
+      {
+        result.Append(key + ": ");
+
+        string sep = "";
+        foreach (string item in parameterSet[key])
+        {
+          result.Append(sep + item);
+          sep = ", ";
+        }
+        result.Append("<br />");
+      }
+    }
+    return result.ToString();
   }
 }
 
 public interface IQueryParameters
 {
-  QueryParameters Parameters { get; }
+  QueryParameters ParameterSet { get; }
 }

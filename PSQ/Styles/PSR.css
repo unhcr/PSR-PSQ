@@ -422,7 +422,7 @@ input[type="reset"][disabled="disabled"]:active {
   left: 50%;
   float: left;
   vertical-align: top;
-  height: 520px;
+  height: 555px;
   padding: 30px 10px 10px;
   margin: 0 5px 10px;
   background-color: #d3e6ff;
@@ -520,21 +520,21 @@ input[type="reset"][disabled="disabled"]:active {
   top: -1px;
 }
 .selection .country-selection div.selection-panel  > div {
-  height: 482px;
+  height: 517px;
   padding: 0 5px;
   overflow-y: auto;
 }
 .selection .country-selection div.selection-panel  > div.list-select {
-  height: 434px;
+  height: 469px;
 }
 .selection .column-selection {
-  width: 190px;
+  width: 220px;
 }
 .selection .column-selection div {
   margin-bottom: 6px;
 }
 .selection .column-selection h3 {
-  margin-bottom: 0.3em;
+  margin-bottom: 0.4em;
 }
 .selection .column-selection .age-sex {
   margin-top: -5px;
@@ -565,11 +565,14 @@ input[type="reset"][disabled="disabled"]:active {
 .selection .column-selection .age-sex label {
   margin-bottom: 1px;
 }
+.selection .column-selection .checkbox-list {
+  padding-bottom: 5px;
+}
 .selection .column-selection .checkbox-list td {
   padding-bottom: 3px;
   padding-left: 16px;
 }
-.selection .column-selection .checkbox-list input[type="checkbox"] {
+.selection .column-selection .checkbox-list input {
   position: relative;
   vertical-align: bottom;
   top: -1px;
@@ -581,6 +584,14 @@ input[type="reset"][disabled="disabled"]:active {
   padding-left: 0;
   margin-left: -16px;
   text-indent: -16px;
+}
+.selection .column-selection .listbox-list {
+  padding-bottom: 5px;
+}
+.selection .column-selection .listbox-list label {
+  display: block;
+  text-indent: 0.3em;
+  margin-bottom: 0.5em;
 }
 .selection .buttons {
   clear: both;
@@ -817,15 +828,22 @@ td.numeric input {
   width: 30px;
   text-align: center;
 }
-.male-row {
-  background-color: #d3e6ff;
+.total-assisted {
+  text-align: right;
+  white-space: nowrap;
+}
+.total-assisted-narrow {
+  width: 10px;
+}
+.total-assisted-wide {
+  width: 100px;
 }
 .accent {
   background-color: #d3e6ff;
 }
 .top-pager {
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 0px;
   font-size: 0;
 }
 .top-pager label {

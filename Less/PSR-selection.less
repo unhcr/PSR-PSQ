@@ -2,14 +2,14 @@
 // Selection criteria page styling
 // ===============================
 
-@SelectionPanelHeight:      520px;
+@SelectionPanelHeight:      555px;
 @SelectionPanelTopMargin:   20px;
 @SelectionPanelColour:      lighten(@BaseColour, 38%);
 @LegendColour:              @ColouredTextColour;
 
 @YearPanelWidth:            80px;
 @CountryPanelWidth:         280px;
-@FormatPanelWidth:          190px;
+@FormatPanelWidth:          220px;
 
 @CountryTreeHeight:         @SelectionPanelHeight - 28px;
 @CountryListHeight:         @CountryTreeHeight - 27px;
@@ -170,15 +170,10 @@
 
     div {
       margin-bottom: 6px;
-      // .labelled-selector(4px);
     }
 
     h3 {
-      margin-bottom: 0.3em;
-    }
-
-    label {
-      // margin-bottom: 3px;
+      margin-bottom: 0.4em;
     }
 
     .age-sex {
@@ -191,12 +186,14 @@
     }
 
     .checkbox-list {
+      padding-bottom: 5px;
+
       td {
         padding-bottom: 3px;
         padding-left: 16px;
       }
 
-      input[type="checkbox"] {
+      input {
         position: relative;
         vertical-align: bottom;
         top: -1px;
@@ -209,6 +206,16 @@
         padding-left: 0;
         margin-left: -16px;
         text-indent: -16px;
+      }
+    }
+
+    .listbox-list {
+      padding-bottom: 5px;
+
+      label {
+        display: block;
+        text-indent: 0.3em;
+        margin-bottom: 0.5em;
       }
     }
   }

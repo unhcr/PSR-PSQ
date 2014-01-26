@@ -27,16 +27,14 @@
     <div class="header">
       <div class="header_caps">
         <div class="header_back">
-          <a href="Default.aspx">
-            <img src="Images/header_logo.jpg" alt="UNHCR" title="UNHCR PSQ D2.0"
-              onerror="this.onerror = null; this.src='Images/header_logo.jpg';" />
-          </a>
+          <asp:ImageButton runat="server" ID="ibtHCR" AlternateText="UNHCR" ToolTip="UNHCR PSQ D2.0"
+            ImageUrl="Images/header_logo.jpg" PostBackUrl="Default.aspx" />
           <div class="navbar">
-            <a id="poc-overview" href="PSQPOCS.aspx">Overview</a>
-            <a id="poc-time-series" href="PSQTMSS.aspx">Time Series</a>
-            <a id="demographics" href="PSQDEMS.aspx">Demographics</a>
-            <a id="rsd" href="PSQRSDS.aspx">Asylum Seekers</a>
-            <a id="frs" href="PSQFRS.aspx">Quick Queries</a>
+            <asp:LinkButton runat="server" ID="lbtPOC" Text="Overview" PostBackUrl="PSQPOCS.aspx" />
+            <asp:LinkButton runat="server" ID="lbtTMS" Text="Time Series" PostBackUrl="PSQTMSS.aspx" />
+            <asp:LinkButton runat="server" ID="lbtDEM" Text="Demographics" PostBackUrl="PSQDEMS.aspx" />
+            <asp:LinkButton runat="server" ID="lbtRSD" Text="Asylum-seekers" PostBackUrl="PSQRSDS.aspx" />
+            <asp:LinkButton runat="server" ID="lbtFRS" Text="Quick Queries" PostBackUrl="PSQFRS.aspx" />
           </div> <!-- /.navbar -->
           <h1>Population Statistics</h1>
         </div> <!-- /.header_back -->
@@ -45,7 +43,7 @@
     <div class="container">
       <asp:ContentPlaceHolder id="phB" runat="server" />
     </div> <!-- /.container -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <asp:ContentPlaceHolder id="phS" runat="server" />
   </form>
 </body>

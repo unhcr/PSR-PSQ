@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 public partial class PSQPOCS : System.Web.UI.Page, IQueryParameters
 {
-  public QueryParameters Parameters { get; set; }
+  public QueryParameters ParameterSet { get; set; }
 
   #region SQLstatements
   private string dsYears_SelectCommand =
@@ -19,17 +19,20 @@ public partial class PSQPOCS : System.Web.UI.Page, IQueryParameters
   private string dsCountries_CountryList_SelectCommand =
 @"select CODE, NAME,
   case when ROW_NUMBER = 1 then '<div class=""list-select""><ul>' end || '<li>' as PREFIX,
-  '</li>' || case when ROW_NUMBER = ROW_COUNT then '</ul></div>' end as SUFFIX,
+  '</li>' || case when ROW_NUMBER is null then '</ul></div>' end as SUFFIX,
   'leaf' as NODETYPE,
   'false' as EXPANDED
 from
  (select CODE, NAME,
     row_number() over (order by SORT_NAME) as ROW_NUMBER,
-    count(*) over () as ROW_COUNT,
     SORT_NAME
-  from COUNTRY_SELECTION
-  where CODE in (select COU_CODE_RESIDENCE from PSQ_POC_SUMMARY_DATA))
-order by SORT_NAME";
+  from PSQ_COUNTRY_SELECTION
+  where CODE in (select COU_CODE from PSQ_POC_SUMMARY_COUNTRIES)
+  union all
+  select CODE, NAME, null as ROW_NUMBER, null as SORT_NAME
+  from PSQ_ORIGIN_SELECTION
+  where CODE = 'XXX')
+order by SORT_NAME nulls last";
 
   private string dsCountries_UNSDTree_SelectCommand =
 @"select case when LOCT_CODE != 'COUNTRY' then '*' end || CODE as CODE,
@@ -54,17 +57,24 @@ from
   from
    (select ID, CODE, NAME, LOCT_CODE, TREE_LEVEL,
       ORDER_SEQ, null as SORT_NAME
-    from UNSD_REGION_TREE REG
+    from PSQ_UNSD_REGION_TREE
     union all
     select COU.ID, COU.CODE, COU.NAME, COU.LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
       REG.ORDER_SEQ, COU.SORT_NAME
-    from UNSD_REGION_TREE REG
-    inner join T_LOCATION_RELATIONSHIPS LOCR
+    from PSQ_UNSD_REGION_TREE REG
+    inner join LOCATION_RELATIONSHIPS LOCR
       on LOCR.LOC_ID_FROM = REG.ID
       and LOCR.LOCRT_CODE = 'UNSD'
-    inner join COUNTRY_SELECTION COU
+    inner join PSQ_COUNTRY_SELECTION COU
       on COU.ID = LOCR.LOC_ID_TO
-    where COU.CODE in (select COU_CODE_RESIDENCE from PSQ_POC_SUMMARY_DATA)))
+    where COU.CODE in (select COU_CODE from PSQ_POC_SUMMARY_COUNTRIES)
+    union all
+    select OGN.ID, OGN.CODE, OGN.NAME, 'COUNTRY' as LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
+      null as ORDER_SEQ, OGN.SORT_NAME
+    from PSQ_ORIGIN_SELECTION OGN
+    cross join PSQ_UNSD_REGION_TREE REG
+    where OGN.CODE = 'XXX'
+    and REG.LOCT_CODE = 'WORLD'))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsCountries_UNHCRTree_SelectCommand =
@@ -90,33 +100,39 @@ from
     ORDER_SEQ, SORT_NAME
   from
    (select ID, CODE, NAME, LOCT_CODE, TREE_LEVEL, ORDER_SEQ, null as SORT_NAME
-    from UNHCR_REGION_TREE REG
+    from PSQ_UNHCR_REGION_TREE REG
     union all
     select COU.ID, COU.CODE, COU.NAME, COU.LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
       REG.ORDER_SEQ, COU.SORT_NAME
-    from UNHCR_REGION_TREE REG
-    inner join T_LOCATION_RELATIONSHIPS LOCR
+    from PSQ_UNHCR_REGION_TREE REG
+    inner join LOCATION_RELATIONSHIPS LOCR
       on LOCR.LOC_ID_FROM = REG.ID
       and LOCR.LOCRT_CODE = 'HCRRESP'
-    inner join COUNTRY_SELECTION COU
+    inner join PSQ_COUNTRY_SELECTION COU
       on COU.ID = LOCR.LOC_ID_TO
-      and COU.CODE in (select COU_CODE_RESIDENCE from PSQ_POC_SUMMARY_DATA)))
+      and COU.CODE in (select COU_CODE from PSQ_POC_SUMMARY_COUNTRIES)
+    union all
+    select OGN.ID, OGN.CODE, OGN.NAME, 'COUNTRY' as LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
+      null as ORDER_SEQ, OGN.SORT_NAME
+    from PSQ_ORIGIN_SELECTION OGN
+    cross join PSQ_UNHCR_REGION_TREE REG
+    where OGN.CODE = 'XXX'
+    and REG.LOCT_CODE = 'UNHCR'))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsOrigins_CountryList_SelectCommand =
 @"select CODE, NAME,
   case when ROW_NUMBER = 1 then '<div class=""list-select""><ul>' end || '<li>' as PREFIX,
-  '</li>' || case when ROW_NUMBER = ROW_COUNT then '</ul></div>' end as SUFFIX,
+  '</li>' || case when ROW_NUMBER is null then '</ul></div>' end as SUFFIX,
   'leaf' as NODETYPE,
   'false' as EXPANDED
 from
  (select CODE, NAME,
-    row_number() over (order by SORT_NAME) as ROW_NUMBER,
-    count(*) over () as ROW_COUNT,
-    SORT_NAME
-  from ORIGIN_SELECTION
-  where CODE in (select COU_CODE_ORIGIN from PSQ_POC_SUMMARY_DATA))
-order by SORT_NAME";
+    case when CODE = 'XXX' then null else row_number() over (order by SORT_NAME) end as ROW_NUMBER,
+    case when CODE = 'XXX' then null else SORT_NAME end as SORT_NAME
+  from PSQ_ORIGIN_SELECTION
+  where CODE in (select COU_CODE from PSQ_POC_SUMMARY_ORIGINS))
+order by SORT_NAME nulls last";
 
   private string dsOrigins_UNSDTree_SelectCommand =
 @"select case when LOCT_CODE not in ('COUNTRY', 'OTHORIGIN') then '*' end || CODE as CODE,
@@ -130,7 +146,10 @@ order by SORT_NAME";
   case when NEXT_TREE_LEVEL <= TREE_LEVEL and NEXT_TREE_LEVEL > 0 then '</li>' end ||
   case when ROW_NUMBER = ROW_COUNT then '</div>' end as SUFFIX,
   case when LOCT_CODE in ('COUNTRY', 'OTHORIGIN') then 'leaf' else 'toggle' end as NODETYPE,
-  case when LOCT_CODE not in ('COUNTRY', 'OTHORIGIN') and TREE_LEVEL <= 2 then 'true' else 'false' end as EXPANDED
+  case
+    when LOCT_CODE not in ('COUNTRY', 'OTHORIGIN') and TREE_LEVEL <= 2 then 'true'
+    else 'false'
+  end as EXPANDED
 from
  (select CODE, NAME, LOCT_CODE, TREE_LEVEL,
     lag(TREE_LEVEL, 1, 0) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as PREV_TREE_LEVEL,
@@ -141,17 +160,17 @@ from
   from
    (select ID, CODE, NAME, LOCT_CODE, TREE_LEVEL,
       ORDER_SEQ, null as SORT_NAME
-    from UNSD_REGION_TREE REG
+    from PSQ_UNSD_REGION_TREE
     union all
     select OGN.ID, OGN.CODE, OGN.NAME, OGN.LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
-      REG.ORDER_SEQ, OGN.SORT_NAME
-    from UNSD_REGION_TREE REG
-    inner join T_LOCATION_RELATIONSHIPS LOCR
+      case when REG.LOCT_CODE != 'WORLD' then REG.ORDER_SEQ end as ORDER_SEQ, OGN.SORT_NAME
+    from PSQ_UNSD_REGION_TREE REG
+    inner join LOCATION_RELATIONSHIPS LOCR
       on LOCR.LOC_ID_FROM = REG.ID
       and LOCR.LOCRT_CODE = 'UNSD'
-    inner join ORIGIN_SELECTION OGN
+    inner join PSQ_ORIGIN_SELECTION OGN
       on OGN.ID = LOCR.LOC_ID_TO
-    where OGN.CODE in (select COU_CODE_ORIGIN from PSQ_POC_SUMMARY_DATA)))
+    where OGN.CODE in (select COU_CODE from PSQ_POC_SUMMARY_ORIGINS)))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsOrigins_UNHCRTree_SelectCommand =
@@ -165,7 +184,7 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
   end ||
   case when NEXT_TREE_LEVEL <= TREE_LEVEL and NEXT_TREE_LEVEL > 0 then '</li>' end ||
   case when ROW_NUMBER = ROW_COUNT then '</div>' end as SUFFIX,
-  case when LOCT_CODE = 'COUNTRY' then 'leaf' else 'toggle' end as NODETYPE,
+  case when LOCT_CODE in ('COUNTRY', 'OTHORIGIN') then 'leaf' else 'toggle' end as NODETYPE,
   case
     when LOCT_CODE not in ('COUNTRY', 'OTHORIGIN') and NEXT_LOCT_CODE not in ('COUNTRY', 'OTHORIGIN')
     then 'true'
@@ -180,51 +199,83 @@ from
     count(*) over () as ROW_COUNT,
     ORDER_SEQ, SORT_NAME
   from
-   (select ID, CODE, NAME, LOCT_CODE, TREE_LEVEL, ORDER_SEQ, null as SORT_NAME
-    from UNHCR_REGION_TREE REG
+   (select ID, CODE, NAME, LOCT_CODE, TREE_LEVEL,
+      ORDER_SEQ, null as SORT_NAME
+    from PSQ_UNHCR_REGION_TREE REG
     union all
-    select COU.ID, COU.CODE, COU.NAME, COU.LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL, REG.ORDER_SEQ, COU.SORT_NAME
-    from UNHCR_REGION_TREE REG
-    inner join T_LOCATION_RELATIONSHIPS LOCR
+    select COU.ID, COU.CODE, COU.NAME, COU.LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
+      case when REG.LOCT_CODE != 'UNHCR' then REG.ORDER_SEQ end as ORDER_SEQ, COU.SORT_NAME
+    from PSQ_UNHCR_REGION_TREE REG
+    inner join LOCATION_RELATIONSHIPS LOCR
       on LOCR.LOC_ID_FROM = REG.ID
       and LOCR.LOCRT_CODE = 'HCRRESP'
-    inner join ORIGIN_SELECTION COU
+    inner join PSQ_ORIGIN_SELECTION COU
       on COU.ID = LOCR.LOC_ID_TO
-      and COU.CODE in (select COU_CODE_ORIGIN from PSQ_POC_SUMMARY_DATA)))
+      and COU.CODE in (select COU_CODE from PSQ_POC_SUMMARY_ORIGINS)))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
   #endregion
+  
+  void SetDefaultParameters()
+  {
+    if (! ParameterSet.ContainsKey("RESSTYLE"))
+    {
+      ParameterSet.AddSet("RESSTYLE", new SortedSet<string>(new string[] { "UNSD" }));
+    }
+
+    if (! ParameterSet.ContainsKey("OGNSTYLE"))
+    {
+      ParameterSet.AddSet("OGNSTYLE", new SortedSet<string>(new string[] { "UNSD" }));
+    }
+
+    if (! ParameterSet.ContainsKey("BREAKDOWN") && ! ParameterSet.ContainsEmptyKey("BREAKDOWN"))
+    {
+      ParameterSet.AddSet("BREAKDOWN", new SortedSet<string>(new string[] { "RES" }));
+    }
+
+    if (! ParameterSet.ContainsKey("SUMRES"))
+    {
+      ParameterSet.AddSet("SUMRES", new SortedSet<string>(new string[] { "COUNTRY" }));
+    }
+
+    if (! ParameterSet.ContainsKey("SUMOGN"))
+    {
+      ParameterSet.AddSet("SUMOGN", new SortedSet<string>(new string[] { "COUNTRY" }));
+    }
+
+    if (! ParameterSet.ContainsKey("POP_TYPES"))
+    {
+      ParameterSet.AddSet("POP_TYPES", new SortedSet<string>(
+        new string[] { "RFT","AS","RT","IDT","RD","ST","OC","TPOC" }));
+    }
+  }
 
   protected void Page_Load(object sender, EventArgs e)
   {
     if (IsPostBack)
     {
-      Parameters = new QueryParameters(ViewState);
+      ParameterSet = new QueryParameters(ViewState);
     }
     else if (PreviousPage == null)
     {
-      Parameters = new QueryParameters();
-      Parameters.AddSet(
-        "BREAKDOWN",
-        new SortedSet<string>(new string[] { "RES","OGN" }));
-      Parameters.AddSet(
-        "POP_TYPES",
-        new SortedSet<string>(new string[] { "REF","ASY","RET","IDP","RDP","STA","OOC","POC" }));
+      ParameterSet = new QueryParameters();
     }
     else
     {
-      Parameters = (PreviousPage as IQueryParameters).Parameters;
+      ParameterSet = (PreviousPage as IQueryParameters).ParameterSet;
     }
+
+    SetDefaultParameters();
   }
 
   protected void Page_PreRender(object sender, EventArgs e)
   {
-    Parameters.SaveToViewState(ViewState);
+    ParameterSet.SaveToViewState(ViewState);
 
     dsYears.SelectCommand = dsYears_SelectCommand;
 
-    if (Parameters.ContainsKey("RESSTYLE"))
+    if (ParameterSet.ContainsKey("RESSTYLE"))
     {
-      rblCS.SelectedValue = Parameters["RESSTYLE"].Max;
+      rblCS.SelectedValue = ParameterSet["RESSTYLE"].Max;
     }
     hfC.Value = rblCS.SelectedValue;
 
@@ -241,9 +292,9 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
         break;
     }
 
-    if (Parameters.ContainsKey("OGNSTYLE"))
+    if (ParameterSet.ContainsKey("OGNSTYLE"))
     {
-      rblOS.SelectedValue = Parameters["OGNSTYLE"].Max;
+      rblOS.SelectedValue = ParameterSet["OGNSTYLE"].Max;
     }
     hfO.Value = rblOS.SelectedValue;
 
@@ -260,19 +311,37 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
         break;
     }
 
-    if (Parameters.ContainsKey("BREAKDOWN"))
+    if (ParameterSet.ContainsKey("BREAKDOWN"))
     {
       foreach (ListItem item in cblBD.Items)
       {
-        item.Selected = Parameters["BREAKDOWN"].Contains(item.Value);
+        item.Selected = ParameterSet["BREAKDOWN"].Contains(item.Value);
       }
     }
 
-    if (Parameters.ContainsKey("POP_TYPES"))
+    if (ParameterSet.ContainsKey("SUMRES"))
+    {
+      ddlRS.SelectedValue = ParameterSet["SUMRES"].Max;
+    }
+
+    if (ParameterSet.ContainsKey("SUMOGN"))
+    {
+      ddlOG.SelectedValue = ParameterSet["SUMOGN"].Max;
+    }
+
+    if (ParameterSet.ContainsKey("POP_TYPES"))
     {
       foreach (ListItem item in cblPT.Items)
       {
-        item.Selected = Parameters["POP_TYPES"].Contains(item.Value);
+        item.Selected = ParameterSet["POP_TYPES"].Contains(item.Value);
+      }
+    }
+
+    if (ParameterSet.ContainsKey("INCLUDE"))
+    {
+      foreach (ListItem item in cblIN.Items)
+      {
+        item.Selected = ParameterSet["INCLUDE"].Contains(item.Value);
       }
     }
   }
@@ -282,9 +351,9 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
     int maxRows = 30;
     lbYL.Rows = (lbYL.Items.Count > maxRows) ? maxRows : lbYL.Items.Count;
 
-    if (Parameters.ContainsKey("YEAR"))
+    if (ParameterSet.ContainsKey("YEAR"))
     {
-      foreach (string year in Parameters["YEAR"])
+      foreach (string year in ParameterSet["YEAR"])
       {
         ListItem item = lbYL.Items.FindByValue(year);
         if (item != null)
@@ -296,21 +365,21 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
     else
     {
       lbYL.Items[0].Selected = true;
-      Parameters.AddItem("YEAR", lbYL.Items[0].Value);
+      ParameterSet.AddItem("YEAR", lbYL.Items[0].Value);
     }
   }
 
   protected void lvC_DataBound(object sender, EventArgs e)
   {
-    if (Parameters.ContainsKey("RESSTYLE"))
+    if (ParameterSet.ContainsKey("RESSTYLE"))
     {
       lvC.FindControl("dvSC").Visible = lvC.FindControl("lbSC").Visible =
-        (Parameters["RESSTYLE"].Max == "LIST");
+        (ParameterSet["RESSTYLE"].Max == "LIST");
     }
 
-    if (Parameters.ContainsKey("RESSTATE_" + hfC.Value))
+    if (ParameterSet.ContainsKey("RESSTATE_" + hfC.Value))
     {
-      var set = Parameters["RESSTATE_" + hfC.Value];
+      var set = ParameterSet["RESSTATE_" + hfC.Value];
       foreach (ListViewDataItem item in lvC.Items)
       {
         var checkBox = item.FindControl("cbCT") as CheckBox;
@@ -321,14 +390,14 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
       }
     }
 
-    if (Parameters.ContainsKey("RESFILTER"))
+    if (ParameterSet.ContainsKey("RESFILTER"))
     {
-      ((TextBox)lvC.FindControl("tbSC")).Text = Parameters["RESFILTER"].Max;
+      ((TextBox)lvC.FindControl("tbSC")).Text = ParameterSet["RESFILTER"].Max;
     }
 
-    if (Parameters.ContainsKey("RES"))
+    if (ParameterSet.ContainsKey("RES"))
     {
-      var set = Parameters["RES"];
+      var set = ParameterSet["RES"];
       foreach (ListViewDataItem item in lvC.Items)
       {
         var checkBox = item.FindControl("cbCS") as CheckBox;
@@ -342,15 +411,15 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   protected void lvO_DataBound(object sender, EventArgs e)
   {
-    if (Parameters.ContainsKey("OGNSTYLE"))
+    if (ParameterSet.ContainsKey("OGNSTYLE"))
     {
       lvO.FindControl("dvSO").Visible = lvO.FindControl("lbSO").Visible =
-        (Parameters["OGNSTYLE"].Max == "LIST");
+        (ParameterSet["OGNSTYLE"].Max == "LIST");
     }
 
-    if (Parameters.ContainsKey("OGNSTATE_" + hfO.Value))
+    if (ParameterSet.ContainsKey("OGNSTATE_" + hfO.Value))
     {
-      var set = Parameters["OGNSTATE_" + hfO.Value];
+      var set = ParameterSet["OGNSTATE_" + hfO.Value];
       foreach (ListViewDataItem item in lvO.Items)
       {
         var checkBox = item.FindControl("cbOT") as CheckBox;
@@ -361,14 +430,14 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
       }
     }
 
-    if (Parameters.ContainsKey("OGNFILTER"))
+    if (ParameterSet.ContainsKey("OGNFILTER"))
     {
-      ((TextBox)lvO.FindControl("tbSO")).Text = Parameters["OGNFILTER"].Max;
+      ((TextBox)lvO.FindControl("tbSO")).Text = ParameterSet["OGNFILTER"].Max;
     }
 
-    if (Parameters.ContainsKey("OGN"))
+    if (ParameterSet.ContainsKey("OGN"))
     {
-      var set = Parameters["OGN"];
+      var set = ParameterSet["OGN"];
       foreach (ListViewDataItem item in lvO.Items)
       {
         var checkBox = item.FindControl("cbOS") as CheckBox;
@@ -382,7 +451,7 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   protected void lbYL_SelectedIndexChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "YEAR",
       new SortedSet<string>(
         lbYL.Items.Cast<ListItem>().Where(x => x.Selected).Select(x => x.Value)));
@@ -390,14 +459,14 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   protected void rblCS_SelectedIndexChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "RESSTYLE",
       new SortedSet<string>(new string[] { rblCS.SelectedValue }));
   }
 
   protected void cbCT_CheckedChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "RESSTATE_" + hfC.Value,
       new SortedSet<string>(
         lvC.Items.
@@ -408,33 +477,43 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   protected void tbSC_TextChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "RESFILTER",
       new SortedSet<string>(new string[] { ((TextBox)sender).Text }));
   }
 
   protected void cbCS_CheckedChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "RES",
       new SortedSet<string>(
         lvC.Items.
-        Where(x => x.FindControl("cbCS") as CheckBox != null &&
+        Where(x => lvC.DataKeys[x.DisplayIndex].Values[2].ToString() == "leaf" &&
+          x.FindControl("cbCS") as CheckBox != null &&
           ((CheckBox)x.FindControl("cbCS")).Checked).
-        Select(x => lvC.DataKeys[x.DisplayIndex].Value.ToString()).
-        Where(x => x[0] != '*')));
+        Select(x => lvC.DataKeys[x.DisplayIndex].Value.ToString())));
+
+    ParameterSet.AddSet(
+      "RESNAMES",
+      new SortedSet<string>(
+        lvC.Items.
+        Where(x => lvC.DataKeys[x.DisplayIndex].Values[2].ToString() == "leaf" &&
+          x.FindControl("cbCS") as CheckBox != null &&
+          ((CheckBox)x.FindControl("cbCS")).Checked).
+        Select(x => lvC.DataKeys[x.DisplayIndex].Values[1].ToString()).
+        Take(5)));
   }
 
   protected void rblOS_SelectedIndexChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "OGNSTYLE",
       new SortedSet<string>(new string[] { rblOS.SelectedValue }));
   }
 
   protected void cbOT_CheckedChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "OGNSTATE_" + hfO.Value,
       new SortedSet<string>(
         lvO.Items.
@@ -445,26 +524,36 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   protected void tbSO_TextChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "OGNFILTER",
       new SortedSet<string>(new string[] { ((TextBox)sender).Text }));
   }
 
   protected void cbOS_CheckedChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "OGN",
       new SortedSet<string>(
         lvO.Items.
-        Where(x => x.FindControl("cbOS") as CheckBox != null &&
+        Where(x => lvO.DataKeys[x.DisplayIndex].Values[2].ToString() == "leaf" &&
+          x.FindControl("cbOS") as CheckBox != null &&
           ((CheckBox)x.FindControl("cbOS")).Checked).
-        Select(x => lvO.DataKeys[x.DisplayIndex].Value.ToString()).
-        Where(x => x[0] != '*')));
+        Select(x => lvO.DataKeys[x.DisplayIndex].Value.ToString())));
+
+    ParameterSet.AddSet(
+      "OGNNAMES",
+      new SortedSet<string>(
+        lvO.Items.
+        Where(x => lvO.DataKeys[x.DisplayIndex].Values[2].ToString() == "leaf" &&
+          x.FindControl("cbOS") as CheckBox != null &&
+          ((CheckBox)x.FindControl("cbOS")).Checked).
+        Select(x => lvO.DataKeys[x.DisplayIndex].Values[1].ToString()).
+        Take(5)));
   }
 
   protected void cblBD_SelectedIndexChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "BREAKDOWN",
       new SortedSet<string>(
         cblBD.Items.Cast<ListItem>().Where(x => x.Selected).Select(x => x.Value)));
@@ -472,13 +561,27 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   protected void cblPT_SelectedIndexChanged(object sender, EventArgs e)
   {
-    Parameters.AddSet(
+    ParameterSet.AddSet(
       "POP_TYPES",
       new SortedSet<string>(
         cblPT.Items.Cast<ListItem>().Where(x => x.Selected).Select(x => x.Value)));
   }
 
-  protected void btSb_Click(object sender, EventArgs e)
+  protected void ddlRS_SelectedIndexChanged(object sender, EventArgs e)
   {
+    ParameterSet.AddSet("SUMRES", new SortedSet<string>(new string[] { ddlRS.SelectedValue }));
+  }
+
+  protected void ddlOG_SelectedIndexChanged(object sender, EventArgs e)
+  {
+    ParameterSet.AddSet("SUMOGN", new SortedSet<string>(new string[] { ddlOG.SelectedValue }));
+  }
+
+  protected void cblIN_SelectedIndexChanged(object sender, EventArgs e)
+  {
+    ParameterSet.AddSet(
+      "INCLUDE",
+      new SortedSet<string>(
+        cblIN.Items.Cast<ListItem>().Where(x => x.Selected).Select(x => x.Value)));
   }
 }
