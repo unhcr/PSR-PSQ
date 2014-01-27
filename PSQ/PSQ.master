@@ -27,7 +27,7 @@
     <div class="header">
       <div class="header_caps">
         <div class="header_back">
-          <asp:ImageButton runat="server" ID="ibtHCR" AlternateText="UNHCR" ToolTip="UNHCR PSQ D2.0"
+          <asp:ImageButton runat="server" ID="ibtHCR" AlternateText="UNHCR" ToolTip="UNHCR PSQ T2.0"
             ImageUrl="Images/header_logo.jpg" PostBackUrl="Default.aspx" />
           <div class="navbar">
             <asp:LinkButton runat="server" ID="lbtPOC" Text="Overview" PostBackUrl="PSQPOCS.aspx" />
@@ -35,6 +35,9 @@
             <asp:LinkButton runat="server" ID="lbtDEM" Text="Demographics" PostBackUrl="PSQDEMS.aspx" />
             <asp:LinkButton runat="server" ID="lbtRSD" Text="Asylum-seekers" PostBackUrl="PSQRSDS.aspx" />
             <asp:LinkButton runat="server" ID="lbtFRS" Text="Quick Queries" PostBackUrl="PSQFRS.aspx" />
+            <% if (DateTime.UtcNow > DateTime.Parse(ConfigurationManager.AppSettings["latestDataDate"].ToString())) { %>
+              <asp:LinkButton runat="server" ID="lbtLDT" Text="Recent Data" PostBackUrl="PSQLDT.aspx" />
+            <% } %>
           </div> <!-- /.navbar -->
           <h1>Population Statistics</h1>
         </div> <!-- /.header_back -->
