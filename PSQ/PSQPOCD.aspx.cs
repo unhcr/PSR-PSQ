@@ -479,18 +479,24 @@ from PSQ_POC_SUMMARY POC ");
         "left outer join NAMES NAM2 on NAM2.ITM_ID = POC.UNHCR_ROP_ITM_ID_ORIGIN ",
         String.Empty));
 
-    selectStatement.Append("where POC.ASR_YEAR in (" +
-      ParameterSet.CommaSeparatedList("YEAR") + ") ");
+    string conjunction = "where ";
+
+    if (ParameterSet.ContainsKey("YEAR"))
+    {
+      selectStatement.Append(conjunction + "POC.ASR_YEAR in (" +
+        ParameterSet.CommaSeparatedList("YEAR") + ") ");
+      conjunction = "and ";
+    }
 
     if (ParameterSet.ContainsKey("RES"))
     {
-      selectStatement.Append("and POC.COU_CODE_RESIDENCE in (" +
+      selectStatement.Append(conjunction + "POC.COU_CODE_RESIDENCE in (" +
         ParameterSet.QuotedCommaSeparatedList("RES") + ") ");
     }
 
     if (ParameterSet.ContainsKey("OGN"))
     {
-      selectStatement.Append("and POC.COU_CODE_ORIGIN in (" +
+      selectStatement.Append(conjunction + "POC.COU_CODE_ORIGIN in (" +
         ParameterSet.QuotedCommaSeparatedList("OGN") + ") ");
     }
 

@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class PSQPOCS : System.Web.UI.Page, IQueryParameters
+public partial class PSQTMSS : System.Web.UI.Page, IQueryParameters
 {
   public QueryParameters ParameterSet { get; set; }
 
@@ -229,7 +229,7 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
     if (! ParameterSet.ContainsKey("BREAKDOWN") && ! ParameterSet.ContainsEmptyKey("BREAKDOWN"))
     {
-      ParameterSet.AddSet("BREAKDOWN", new SortedSet<string>(new string[] { "RES" }));
+      ParameterSet.AddSet("BREAKDOWN", new SortedSet<string>(new string[] { "RES","OGN","POPT" }));
     }
 
     if (! ParameterSet.ContainsKey("SUMRES"))
@@ -242,10 +242,10 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
       ParameterSet.AddSet("SUMOGN", new SortedSet<string>(new string[] { "COUNTRY" }));
     }
 
-    if (! ParameterSet.ContainsKey("POP_TYPES"))
+    if (! ParameterSet.ContainsKey("POPT"))
     {
-      ParameterSet.AddSet("POP_TYPES", new SortedSet<string>(
-        new string[] { "RFT","AS","RT","IDT","RD","ST","OC","TPOC" }));
+      ParameterSet.AddSet("POPT", new SortedSet<string>(
+        new string[] { "RF","RL","AS","RT","ID","IL","RD","ST","OC" }));
     }
   }
 
@@ -329,19 +329,11 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
       ddlOG.SelectedValue = ParameterSet["SUMOGN"].Max;
     }
 
-    if (ParameterSet.ContainsKey("POP_TYPES"))
+    if (ParameterSet.ContainsKey("POPT"))
     {
       foreach (ListItem item in cblPT.Items)
       {
-        item.Selected = ParameterSet["POP_TYPES"].Contains(item.Value);
-      }
-    }
-
-    if (ParameterSet.ContainsKey("INCLUDE"))
-    {
-      foreach (ListItem item in cblIN.Items)
-      {
-        item.Selected = ParameterSet["INCLUDE"].Contains(item.Value);
+        item.Selected = ParameterSet["POPT"].Contains(item.Value);
       }
     }
   }
@@ -567,7 +559,7 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
   protected void cblPT_SelectedIndexChanged(object sender, EventArgs e)
   {
     ParameterSet.AddSet(
-      "POP_TYPES",
+      "POPT",
       new SortedSet<string>(
         cblPT.Items.Cast<ListItem>().Where(x => x.Selected).Select(x => x.Value)));
   }
@@ -580,13 +572,5 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
   protected void ddlOG_SelectedIndexChanged(object sender, EventArgs e)
   {
     ParameterSet.AddSet("SUMOGN", new SortedSet<string>(new string[] { ddlOG.SelectedValue }));
-  }
-
-  protected void cblIN_SelectedIndexChanged(object sender, EventArgs e)
-  {
-    ParameterSet.AddSet(
-      "INCLUDE",
-      new SortedSet<string>(
-        cblIN.Items.Cast<ListItem>().Where(x => x.Selected).Select(x => x.Value)));
   }
 }
