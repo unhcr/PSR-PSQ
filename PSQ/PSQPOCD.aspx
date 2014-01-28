@@ -15,7 +15,7 @@
       </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:Label ID="Label1" runat="server" /><br />
+    <%--<asp:Label ID="Label1" runat="server" /><br />--%>
 
     <div class="top-pager">
       <asp:Label runat="server" ID="lblNoData" Visible="false" CssClass="no-data">
@@ -50,10 +50,10 @@
       ItemPlaceholderID="itemPlaceholder" OnDataBound="lvwASR_POC_SUMMARY_DataBound"> 
       <LayoutTemplate>
         <table class="standard-table">
-          <caption id="Caption1" runat="server">
+          <caption runat="server">
             <asp:Label ID="capASR_POC_SUMMARY" runat="server" Text="Persons of concern to UNHCR – Overview" />
           </caption>
-          <colgroup id="Colgroup1" runat="server">
+          <colgroup runat="server">
             <col class="year" />
             <% if (ParameterSet.ContainsItem("BREAKDOWN", "RES"))
                { %>
@@ -122,7 +122,7 @@
             <col class="digits-7" />
             <% } %>
           </colgroup>
-          <thead id="Thead1" runat="server">
+          <thead runat="server">
             <tr>
               <th>Year</th>
               <% if (ParameterSet.ContainsItem("BREAKDOWN", "RES"))

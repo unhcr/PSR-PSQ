@@ -4,8 +4,6 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="phB" Runat="Server">
 
-  <asp:Label ID="lb1" runat="server" />
-
   <asp:SqlDataSource ID="dsYears" runat="server" 
     ConnectionString="<%$ ConnectionStrings:PSQ %>" 
     ProviderName="<%$ ConnectionStrings:PSQ.ProviderName %>" />
@@ -31,11 +29,11 @@
 
       <fieldset class="country-selection">
         <legend>Residing in</legend>
-        <asp:RadioButtonList runat="server" ID="rblCS" RepeatDirection="Horizontal" RepeatLayout="Flow"
-          AutoPostBack="true" OnSelectedIndexChanged="rblCS_SelectedIndexChanged">
-          <asp:ListItem Text="Continents" Value="UNSD" Selected="True" />
-          <asp:ListItem Text="UNHCR regions" Value="UNHCR" />
-          <asp:ListItem Text="List (search)" Value="LIST" />
+        <asp:RadioButtonList runat="server" ID="rblCS" RepeatDirection="Vertical" RepeatLayout="Flow"
+           AutoPostBack="true" OnSelectedIndexChanged="rblCS_SelectedIndexChanged">
+          <asp:ListItem Text="UN continental regions and sub-regions" Value="UNSD" Selected="True" />
+          <asp:ListItem Text="UNHCR bureaux and regional operations" Value="UNHCR" />
+          <asp:ListItem Text="Alphabetical list (search)" Value="LIST" />
         </asp:RadioButtonList>
         <asp:HiddenField runat="server" ID="hfC" Value="UNSD" />
         <asp:ListView runat="server" ID="lvC" DataSourceID="dsCountries" DataKeyNames="CODE,NAME,NODETYPE"
@@ -67,11 +65,11 @@
 
       <fieldset class="country-selection">
         <legend>Originating / returned from</legend>
-        <asp:RadioButtonList runat="server" ID="rblOS" RepeatDirection="Horizontal" RepeatLayout="Flow"
+        <asp:RadioButtonList runat="server" ID="rblOS" RepeatDirection="Vertical" RepeatLayout="Flow"
           AutoPostBack="true" OnSelectedIndexChanged="rblOS_SelectedIndexChanged">
-          <asp:ListItem Text="Continents" Value="UNSD" Selected="True" />
-          <asp:ListItem Text="UNHCR regions" Value="UNHCR" />
-          <asp:ListItem Text="List (search)" Value="LIST" />
+          <asp:ListItem Text="UN continental regions and sub-regions" Value="UNSD" Selected="True" />
+          <asp:ListItem Text="UNHCR bureaux and regional operations" Value="UNHCR" />
+          <asp:ListItem Text="Alphabetical list (search)" Value="LIST" />
         </asp:RadioButtonList>
         <asp:HiddenField runat="server" ID="hfO" Value="UNSD" />
         <asp:ListView runat="server" ID="lvO" DataSourceID="dsOrigins" DataKeyNames="CODE,NAME,NODETYPE"
