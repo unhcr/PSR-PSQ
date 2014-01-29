@@ -177,12 +177,25 @@
     }
 
     .age-sex {
-      margin-top: -5px;
-      .labelled-selector(3px);
+      margin-top: -8px;
 
       label {
+        display: inline-block;
         margin-bottom: 1px;
       }
+
+      input[type="radio"] {
+        position: relative;
+        vertical-align: bottom;
+        margin-right: 3px;
+        top: -2px;
+
+        [dir="rtl"] & {
+          margin-right: 0;
+          margin-left: 3px;
+        }
+      }
+
     }
 
     .checkbox-list {

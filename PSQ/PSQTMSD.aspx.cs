@@ -153,7 +153,7 @@ public partial class PSQTMSD : System.Web.UI.Page, IQueryParameters
     }
 
     Response.Clear();
-    Response.AddHeader("content-disposition", "attachment; filename=PSQ_TMS.csv");
+    Response.AddHeader("content-disposition", "attachment; filename=PSQTMS.csv");
     Response.ContentType = "application/csv";
     Response.ContentEncoding = Encoding.UTF8;
     Response.BinaryWrite(Encoding.UTF8.GetPreamble());
@@ -351,7 +351,7 @@ public partial class PSQTMSD : System.Web.UI.Page, IQueryParameters
     var caption = new StringBuilder("Time Series – ");
     string conjunction = "";
 
-    int limit = ParameterSet.ContainsKey("POPT") ? ParameterSet["POPT"].Count - 1 : -1;
+    int limit = (ParameterSet.ContainsKey("POPT") ? ParameterSet["POPT"].Count : 0) - 1;
 
     if (! ParameterSet.ContainsItem("BREAKDOWN", "POPT") && limit >= 0 && limit < 8)
     {

@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/PSQ.master" 
-  Title="UNHCR Population Statistics - Persons of Concern Time Series"
-  CodeFile="PSQTMSS.aspx.cs" Inherits="PSQTMSS" %>
+  Title="UNHCR Population Statistics - Demographics"
+  CodeFile="PSQDEMS.aspx.cs" Inherits="PSQDEMS" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="phB" Runat="Server">
 
@@ -109,10 +109,19 @@
             <asp:ListItem Text="Population type" Value="POPT" />
           </asp:CheckBoxList>
         </div>
+        <div class="age-sex">
+          <asp:RadioButtonList runat="server" ID="rblSA" RepeatDirection="Vertical" RepeatLayout="Flow"
+            OnSelectedIndexChanged="rblSA_SelectedIndexChanged">
+            <asp:ListItem Text="Sex and age" Value="AGE" Selected="True" />
+            <asp:ListItem Text="Sex only" Value="SEX" />
+            <asp:ListItem Text="Neither sex nor age (total only)" Value="NONE" />
+          </asp:RadioButtonList>
+        </div>
         <div class="listbox-list">
           <h3>Summarise by:</h3>
           <label>Residing in
-            <asp:DropDownList ID="ddlRS" runat="server" Rows="1" OnSelectedIndexChanged="ddlRS_SelectedIndexChanged">
+            <asp:DropDownList ID="ddlRS" runat="server" OnSelectedIndexChanged="ddlRS_SelectedIndexChanged">
+              <asp:ListItem Text="Location within country / territory" Value="LOCATION" />
               <asp:ListItem Text="Country / territory" Value="COUNTRY" />
               <asp:ListItem Text="Sub-region" Value="UNSD_GSR" />
               <asp:ListItem Text="Continent" Value="UNSD_MGR" />
@@ -121,7 +130,7 @@
             </asp:DropDownList>
           </label>
           <label>Originating / returned from
-            <asp:DropDownList ID="ddlOG" runat="server" Rows="1" OnSelectedIndexChanged="ddlOG_SelectedIndexChanged">
+            <asp:DropDownList ID="ddlOG" runat="server" OnSelectedIndexChanged="ddlOG_SelectedIndexChanged">
               <asp:ListItem Text="Country / territory" Value="COUNTRY" />
               <asp:ListItem Text="Sub-region" Value="UNSD_GSR" />
               <asp:ListItem Text="Continent" Value="UNSD_MGR" />
@@ -133,15 +142,16 @@
         <div class="checkbox-list population-types">
           <h3>Include population types:</h3>
           <asp:CheckBoxList ID="cblPT" runat="server" OnSelectedIndexChanged="cblPT_SelectedIndexChanged">
-            <asp:ListItem Text="Refugees" Value="RF" />
-            <asp:ListItem Text="Persons in a refugee-like situation" Value="RL" />
-            <asp:ListItem Text="Asylum-seekers" Value="AS" />
-            <asp:ListItem Text="Returned refugees" Value="RT" />
-            <asp:ListItem Text="Internally displaced persons" Value="ID" />
-            <asp:ListItem Text="Persons in an IDP-like situation" Value="IL" />
-            <asp:ListItem Text="Returned IDPs" Value="RD" />
-            <asp:ListItem Text="Stateless persons" Value="ST" />
-            <asp:ListItem Text="Others of concern" Value="OC" />
+            <asp:ListItem Text="Refugees" Value="REF" />
+            <asp:ListItem Text="Persons in a refugee-like situation" Value="ROC" />
+            <asp:ListItem Text="Asylum-seekers" Value="ASY" />
+            <asp:ListItem Text="Returned refugees" Value="RET" />
+            <asp:ListItem Text="Internally displaced persons" Value="IDP" />
+            <asp:ListItem Text="Persons in an IDP-like situation" Value="IOC" />
+            <asp:ListItem Text="Returned IDPs" Value="RDP" />
+            <asp:ListItem Text="Stateless persons" Value="STA" />
+            <asp:ListItem Text="Others of concern" Value="OOC" />
+            <asp:ListItem Text="Various" Value="VAR" />
           </asp:CheckBoxList>
         </div>
       </fieldset>
@@ -149,7 +159,7 @@
     </div> <!-- /.selection-container -->
 
     <div class="buttons">
-      <asp:Button ID="btSb" runat="server" Text="Submit" PostBackUrl="PSQTMSD.aspx" />
+      <asp:Button ID="btSb" runat="server" Text="Submit" PostBackUrl="PSQDEMD.aspx" />
     </div> <!-- /.buttons -->
   </div> <!-- /.selection -->
 
@@ -160,7 +170,7 @@
   <script type="text/javascript">
     $(document).ready(function () {
       "use strict";
-      $("#lbtTMS").addClass("active");
+      $("#lbtDEM").addClass("active");
     });
   </script>
 </asp:Content>

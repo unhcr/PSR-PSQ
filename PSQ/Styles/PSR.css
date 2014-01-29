@@ -173,6 +173,7 @@ body {
 }
 .header h1 {
   position: absolute;
+  top: 0;
   right: 0;
   color: white;
 }
@@ -537,33 +538,21 @@ input[type="reset"][disabled="disabled"]:active {
   margin-bottom: 0.4em;
 }
 .selection .column-selection .age-sex {
-  margin-top: -5px;
+  margin-top: -8px;
 }
 .selection .column-selection .age-sex label {
-  display: block;
-  padding-left: 16px;
-  text-indent: -16px;
+  display: inline-block;
+  margin-bottom: 1px;
 }
-[dir="rtl"] .selection .column-selection .age-sex label {
-  padding-left: 0;
-  padding-right: 16px;
-}
-.selection .column-selection .age-sex label input[type="checkbox"],
-.selection .column-selection .age-sex label input[type="radio"] {
+.selection .column-selection .age-sex input[type="radio"] {
   position: relative;
   vertical-align: bottom;
-  width: 13px;
-  height: 13px;
   margin-right: 3px;
-  top: -1px;
+  top: -2px;
 }
-[dir="rtl"] .selection .column-selection .age-sex label input[type="checkbox"],
-[dir="rtl"] .selection .column-selection .age-sex label input[type="radio"] {
+[dir="rtl"] .selection .column-selection .age-sex input[type="radio"] {
   margin-right: 0;
   margin-left: 3px;
-}
-.selection .column-selection .age-sex label {
-  margin-bottom: 1px;
 }
 .selection .column-selection .checkbox-list {
   padding-bottom: 5px;
@@ -775,14 +764,15 @@ td.numeric input {
   width: 240px;
 }
 .population-type-short {
-  width: 110px;
+  max-width: 110px;
 }
 .table-number {
   width: 40px;
   text-align: center;
 }
 .sex-label {
-  width: 55px;
+  width: 20px;
+  text-align: center;
 }
 .location {
   white-space: nowrap;

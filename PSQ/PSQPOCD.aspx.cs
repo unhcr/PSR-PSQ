@@ -128,7 +128,7 @@ public partial class PSQPOCD : System.Web.UI.Page, IQueryParameters
     }
 
     Response.Clear();
-    Response.AddHeader("content-disposition", "attachment; filename=PSQ_POC.csv");
+    Response.AddHeader("content-disposition", "attachment; filename=PSQPOC.csv");
     Response.ContentType = "application/csv";
     Response.ContentEncoding = Encoding.UTF8;
     Response.BinaryWrite(Encoding.UTF8.GetPreamble());
@@ -526,7 +526,7 @@ from PSQ_POC_SUMMARY POC ");
     var caption = new StringBuilder("Overview – Persons of concern to UNHCR");
     string conjunction = "";
 
-    int limit = ParameterSet.ContainsKey("RES") ? ParameterSet["RES"].Count - 1 : -1;
+    int limit = (ParameterSet.ContainsKey("RES") ? ParameterSet["RES"].Count : 0) - 1;
 
     if (! ParameterSet.ContainsItem("BREAKDOWN", "RES") && limit >= 0 && limit < 5)
     {
@@ -549,7 +549,7 @@ from PSQ_POC_SUMMARY POC ");
       }
     }
 
-    limit = ParameterSet.ContainsKey("OGN") ? ParameterSet["OGN"].Count - 1 : -1;
+    limit = (ParameterSet.ContainsKey("OGN") ? ParameterSet["OGN"].Count : 0) - 1;
 
     if (! ParameterSet.ContainsItem("BREAKDOWN", "OGN") && limit >= 0 && limit < 5)
     {

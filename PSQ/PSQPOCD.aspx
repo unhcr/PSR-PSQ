@@ -9,10 +9,6 @@
     <asp:SqlDataSource ID="dsASR_POC_SUMMARY" runat="server"
       ConnectionString="<%$ ConnectionStrings:PSQ %>" 
       ProviderName="<%$ ConnectionStrings:PSQ.ProviderName %>">
-      <SelectParameters>
-        <asp:Parameter Name="START_YEAR" Type="String" DefaultValue="1950" />
-        <asp:Parameter Name="END_YEAR" Type="String" DefaultValue="9999" />
-      </SelectParameters>
     </asp:SqlDataSource>
 
     <%--<asp:Label ID="Label1" runat="server" /><br />--%>

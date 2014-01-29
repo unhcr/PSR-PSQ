@@ -27,7 +27,7 @@ from
     row_number() over (order by SORT_NAME) as ROW_NUMBER,
     SORT_NAME
   from PSQ_COUNTRY_SELECTION
-  where CODE in (select COU_CODE from PSQ_POC_SUMMARY_COUNTRIES)
+  where CODE in (select COU_CODE from PSQ_POC_COUNTRIES)
   union all
   select CODE, NAME, null as ROW_NUMBER, null as SORT_NAME
   from PSQ_ORIGIN_SELECTION
@@ -67,7 +67,7 @@ from
       and LOCR.LOCRT_CODE = 'UNSD'
     inner join PSQ_COUNTRY_SELECTION COU
       on COU.ID = LOCR.LOC_ID_TO
-    where COU.CODE in (select COU_CODE from PSQ_POC_SUMMARY_COUNTRIES)
+    where COU.CODE in (select COU_CODE from PSQ_POC_COUNTRIES)
     union all
     select OGN.ID, OGN.CODE, OGN.NAME, 'COUNTRY' as LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
       null as ORDER_SEQ, OGN.SORT_NAME
@@ -110,7 +110,7 @@ from
       and LOCR.LOCRT_CODE = 'HCRRESP'
     inner join PSQ_COUNTRY_SELECTION COU
       on COU.ID = LOCR.LOC_ID_TO
-      and COU.CODE in (select COU_CODE from PSQ_POC_SUMMARY_COUNTRIES)
+      and COU.CODE in (select COU_CODE from PSQ_POC_COUNTRIES)
     union all
     select OGN.ID, OGN.CODE, OGN.NAME, 'COUNTRY' as LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
       null as ORDER_SEQ, OGN.SORT_NAME
@@ -131,7 +131,7 @@ from
     case when CODE = 'XXX' then null else row_number() over (order by SORT_NAME) end as ROW_NUMBER,
     case when CODE = 'XXX' then null else SORT_NAME end as SORT_NAME
   from PSQ_ORIGIN_SELECTION
-  where CODE in (select COU_CODE from PSQ_POC_SUMMARY_ORIGINS))
+  where CODE in (select COU_CODE from PSQ_POC_ORIGINS))
 order by SORT_NAME nulls last";
 
   private string dsOrigins_UNSDTree_SelectCommand =
@@ -170,7 +170,7 @@ from
       and LOCR.LOCRT_CODE = 'UNSD'
     inner join PSQ_ORIGIN_SELECTION OGN
       on OGN.ID = LOCR.LOC_ID_TO
-    where OGN.CODE in (select COU_CODE from PSQ_POC_SUMMARY_ORIGINS)))
+    where OGN.CODE in (select COU_CODE from PSQ_POC_ORIGINS)))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsOrigins_UNHCRTree_SelectCommand =
@@ -211,7 +211,7 @@ from
       and LOCR.LOCRT_CODE = 'HCRRESP'
     inner join PSQ_ORIGIN_SELECTION COU
       on COU.ID = LOCR.LOC_ID_TO
-      and COU.CODE in (select COU_CODE from PSQ_POC_SUMMARY_ORIGINS)))
+      and COU.CODE in (select COU_CODE from PSQ_POC_ORIGINS)))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
   #endregion
   

@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/PSQ.master" 
-  Title="UNHCR Population Statistics - Persons of Concern Overview" 
+  Title="UNHCR Population Statistics - Persons of Concern Time Series" 
   CodeFile="PSQTMSD.aspx.cs" Inherits="PSQTMSD" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="phB" Runat="Server">
