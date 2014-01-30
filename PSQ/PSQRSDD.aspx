@@ -11,7 +11,7 @@
       ProviderName="<%$ ConnectionStrings:PSQ.ProviderName %>">
     </asp:SqlDataSource>
 
-    <asp:Label ID="Label1" runat="server" /><br />
+    <%--<asp:Label ID="Label1" runat="server" /><br />--%>
 
     <div class="top-pager">
       <asp:Label runat="server" ID="lblNoData" Visible="false" CssClass="no-data">

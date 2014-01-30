@@ -22,16 +22,7 @@ public partial class PSQDEMS : System.Web.UI.Page, IQueryParameters
   '</li>' || case when ROW_NUMBER is null then '</ul></div>' end as SUFFIX,
   'leaf' as NODETYPE,
   'false' as EXPANDED
-from
- (select CODE, NAME,
-    row_number() over (order by SORT_NAME) as ROW_NUMBER,
-    SORT_NAME
-  from PSQ_COUNTRY_SELECTION
-  where CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_COUNTRIES)
-  union all
-  select CODE, NAME, null as ROW_NUMBER, null as SORT_NAME
-  from PSQ_ORIGIN_SELECTION
-  where CODE = 'XXX')
+from PSQ_DEM_COUNTRY_LIST_EN
 order by SORT_NAME nulls last";
 
   private string dsCountries_UNSDTree_SelectCommand =
@@ -47,27 +38,7 @@ order by SORT_NAME nulls last";
   case when ROW_NUMBER = ROW_COUNT then '</div>' end as SUFFIX,
   case when LOCT_CODE = 'COUNTRY' then 'leaf' else 'toggle' end as NODETYPE,
   case when LOCT_CODE != 'COUNTRY' and TREE_LEVEL <= 2 then 'true' else 'false' end as EXPANDED
-from
- (select CODE, NAME, LOCT_CODE, TREE_LEVEL,
-    lag(TREE_LEVEL, 1, 0) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as PREV_TREE_LEVEL,
-    lead(TREE_LEVEL, 1, 0) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as NEXT_TREE_LEVEL,
-    row_number() over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as ROW_NUMBER,
-    count(*) over () as ROW_COUNT,
-    ORDER_SEQ, SORT_NAME
-  from
-   (select ID, CODE, NAME, LOCT_CODE, TREE_LEVEL,
-      ORDER_SEQ, null as SORT_NAME
-    from PSQ_UNSD_REGION_TREE
-    union all
-    select COU.ID, COU.CODE, COU.NAME, COU.LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
-      REG.ORDER_SEQ, COU.SORT_NAME
-    from PSQ_UNSD_REGION_TREE REG
-    inner join LOCATION_RELATIONSHIPS LOCR
-      on LOCR.LOC_ID_FROM = REG.ID
-      and LOCR.LOCRT_CODE = 'UNSD'
-    inner join PSQ_COUNTRY_SELECTION COU
-      on COU.ID = LOCR.LOC_ID_TO
-    where COU.CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_COUNTRIES)))
+from PSQ_DEM_COUNTRY_UNSD_TREE_EN
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsCountries_UNHCRTree_SelectCommand =
@@ -83,27 +54,7 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
   case when ROW_NUMBER = ROW_COUNT then '</div>' end as SUFFIX,
   case when LOCT_CODE = 'COUNTRY' then 'leaf' else 'toggle' end as NODETYPE,
   case when LOCT_CODE != 'COUNTRY' and NEXT_LOCT_CODE != 'COUNTRY' then 'true' else 'false' end as EXPANDED
-from
- (select CODE, NAME, LOCT_CODE, TREE_LEVEL,
-    lead(LOCT_CODE) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as NEXT_LOCT_CODE,
-    lag(TREE_LEVEL, 1, 0) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as PREV_TREE_LEVEL,
-    lead(TREE_LEVEL, 1, 0) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as NEXT_TREE_LEVEL,
-    row_number() over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as ROW_NUMBER,
-    count(*) over () as ROW_COUNT,
-    ORDER_SEQ, SORT_NAME
-  from
-   (select ID, CODE, NAME, LOCT_CODE, TREE_LEVEL, ORDER_SEQ, null as SORT_NAME
-    from PSQ_UNHCR_REGION_TREE REG
-    union all
-    select COU.ID, COU.CODE, COU.NAME, COU.LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
-      REG.ORDER_SEQ, COU.SORT_NAME
-    from PSQ_UNHCR_REGION_TREE REG
-    inner join LOCATION_RELATIONSHIPS LOCR
-      on LOCR.LOC_ID_FROM = REG.ID
-      and LOCR.LOCRT_CODE = 'HCRRESP'
-    inner join PSQ_COUNTRY_SELECTION COU
-      on COU.ID = LOCR.LOC_ID_TO
-      and COU.CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_COUNTRIES)))
+from PSQ_DEM_COUNTRY_UNHCR_TREE_EN
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsOrigins_CountryList_SelectCommand =
@@ -112,12 +63,7 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
   '</li>' || case when ROW_NUMBER is null then '</ul></div>' end as SUFFIX,
   'leaf' as NODETYPE,
   'false' as EXPANDED
-from
- (select CODE, NAME,
-    case when CODE = 'XXX' then null else row_number() over (order by SORT_NAME) end as ROW_NUMBER,
-    case when CODE = 'XXX' then null else SORT_NAME end as SORT_NAME
-  from PSQ_ORIGIN_SELECTION
-  where CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_ORIGINS))
+from PSQ_DEM_ORIGIN_LIST_EN
 order by SORT_NAME nulls last";
 
   private string dsOrigins_UNSDTree_SelectCommand =
@@ -136,27 +82,7 @@ order by SORT_NAME nulls last";
     when LOCT_CODE not in ('COUNTRY', 'OTHORIGIN') and TREE_LEVEL <= 2 then 'true'
     else 'false'
   end as EXPANDED
-from
- (select CODE, NAME, LOCT_CODE, TREE_LEVEL,
-    lag(TREE_LEVEL, 1, 0) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as PREV_TREE_LEVEL,
-    lead(TREE_LEVEL, 1, 0) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as NEXT_TREE_LEVEL,
-    row_number() over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as ROW_NUMBER,
-    count(*) over () as ROW_COUNT,
-    ORDER_SEQ, SORT_NAME
-  from
-   (select ID, CODE, NAME, LOCT_CODE, TREE_LEVEL,
-      ORDER_SEQ, null as SORT_NAME
-    from PSQ_UNSD_REGION_TREE
-    union all
-    select OGN.ID, OGN.CODE, OGN.NAME, OGN.LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
-      case when REG.LOCT_CODE != 'WORLD' then REG.ORDER_SEQ end as ORDER_SEQ, OGN.SORT_NAME
-    from PSQ_UNSD_REGION_TREE REG
-    inner join LOCATION_RELATIONSHIPS LOCR
-      on LOCR.LOC_ID_FROM = REG.ID
-      and LOCR.LOCRT_CODE = 'UNSD'
-    inner join PSQ_ORIGIN_SELECTION OGN
-      on OGN.ID = LOCR.LOC_ID_TO
-    where OGN.CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_ORIGINS)))
+from PSQ_DEM_ORIGIN_UNSD_TREE_EN
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsOrigins_UNHCRTree_SelectCommand =
@@ -176,28 +102,7 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
     then 'true'
     else 'false'
   end as EXPANDED
-from
- (select CODE, NAME, LOCT_CODE, TREE_LEVEL,
-    lead(LOCT_CODE) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as NEXT_LOCT_CODE,
-    lag(TREE_LEVEL, 1, 0) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as PREV_TREE_LEVEL,
-    lead(TREE_LEVEL, 1, 0) over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as NEXT_TREE_LEVEL,
-    row_number() over (order by ORDER_SEQ, SORT_NAME nulls first, NAME) as ROW_NUMBER,
-    count(*) over () as ROW_COUNT,
-    ORDER_SEQ, SORT_NAME
-  from
-   (select ID, CODE, NAME, LOCT_CODE, TREE_LEVEL,
-      ORDER_SEQ, null as SORT_NAME
-    from PSQ_UNHCR_REGION_TREE REG
-    union all
-    select COU.ID, COU.CODE, COU.NAME, COU.LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
-      case when REG.LOCT_CODE != 'UNHCR' then REG.ORDER_SEQ end as ORDER_SEQ, COU.SORT_NAME
-    from PSQ_UNHCR_REGION_TREE REG
-    inner join LOCATION_RELATIONSHIPS LOCR
-      on LOCR.LOC_ID_FROM = REG.ID
-      and LOCR.LOCRT_CODE = 'HCRRESP'
-    inner join PSQ_ORIGIN_SELECTION COU
-      on COU.ID = LOCR.LOC_ID_TO
-      and COU.CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_ORIGINS)))
+from PSQ_DEM_ORIGIN_UNHCR_TREE_EN
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
   #endregion
   
