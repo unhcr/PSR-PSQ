@@ -85,7 +85,7 @@ public partial class PSQDEMD : System.Web.UI.Page, IQueryParameters
     ConstructSelectStatement();
 
     int i;
-    foreach (DataRow row in ((DataView)dsASR_POC_SUMMARY.Select(DataSourceSelectArguments.Empty)).ToTable().Rows)
+    foreach (DataRow row in ((DataView)dsASR_DEMOGRAPHICS.Select(DataSourceSelectArguments.Empty)).ToTable().Rows)
     {
       i = 0;
       sep = "";
@@ -376,7 +376,7 @@ from
       "ORDER_SEQ_ORIGIN, nlssort(COU_NAME_ORIGIN, 'NLS_SORT=BINARY_AI'), " +
       "DST_ORDER_SEQ, DST_DESCRIPTION");
 
-    dsASR_POC_SUMMARY.SelectCommand = selectStatement.ToString();
+    dsASR_DEMOGRAPHICS.SelectCommand = selectStatement.ToString();
 
     //Label1.Text += selectStatement.ToString() + "<br />" + DateTime.Now;
   }
@@ -518,13 +518,13 @@ from
     if (ddlPageRows.SelectedValue == "0")
     {
       // Switch off paging. Note that 966367641 is the largest page size accepted without misbehaviour of the DataPager.
-      dpgASR_POC_SUMMARY1.PageSize = 100000000;
-      dpgASR_POC_SUMMARY2.PageSize = 100000000;
+      dpgASR_DEMOGRAPHICS1.PageSize = 100000000;
+      dpgASR_DEMOGRAPHICS2.PageSize = 100000000;
     }
     else
     {
-      dpgASR_POC_SUMMARY1.PageSize = Convert.ToInt32(ddlPageRows.SelectedValue);
-      dpgASR_POC_SUMMARY2.PageSize = Convert.ToInt32(ddlPageRows.SelectedValue);
+      dpgASR_DEMOGRAPHICS1.PageSize = Convert.ToInt32(ddlPageRows.SelectedValue);
+      dpgASR_DEMOGRAPHICS2.PageSize = Convert.ToInt32(ddlPageRows.SelectedValue);
     }
   }
   
@@ -588,14 +588,14 @@ from
     BuildCSV();
   }
 
-  protected void lvwASR_POC_SUMMARY_DataBound(object sender, EventArgs e)
+  protected void lvwASR_DEMOGRAPHICS_DataBound(object sender, EventArgs e)
   {
-    lblNoData.Visible = (dpgASR_POC_SUMMARY1.TotalRowCount == 0);
-    lblPager.Visible = (dpgASR_POC_SUMMARY1.TotalRowCount > 0);
-    btnCSV.Visible = (dpgASR_POC_SUMMARY1.TotalRowCount > 0);
-    dpgASR_POC_SUMMARY2.Visible = (dpgASR_POC_SUMMARY2.TotalRowCount > dpgASR_POC_SUMMARY2.PageSize);
+    lblNoData.Visible = (dpgASR_DEMOGRAPHICS1.TotalRowCount == 0);
+    lblPager.Visible = (dpgASR_DEMOGRAPHICS1.TotalRowCount > 0);
+    btnCSV.Visible = (dpgASR_DEMOGRAPHICS1.TotalRowCount > 0);
+    dpgASR_DEMOGRAPHICS2.Visible = (dpgASR_DEMOGRAPHICS2.TotalRowCount > dpgASR_DEMOGRAPHICS2.PageSize);
 
-    var caption = (Label)(lvwASR_POC_SUMMARY.FindControl("capASR_POC_SUMMARY"));
+    var caption = (Label)(lvwASR_DEMOGRAPHICS.FindControl("capASR_DEMOGRAPHICS"));
     if (caption != null)
     {
       caption.Text = GetCaption();

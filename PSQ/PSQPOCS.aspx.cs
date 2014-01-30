@@ -232,7 +232,7 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
       ParameterSet.AddSet("BREAKDOWN", new SortedSet<string>(new string[] { "RES" }));
     }
 
-    if (! ParameterSet.ContainsKey("SUMRES"))
+    if (!ParameterSet.ContainsKey("SUMRES") || ParameterSet.ContainsItem("SUMRES", "LOCATION"))
     {
       ParameterSet.AddSet("SUMRES", new SortedSet<string>(new string[] { "COUNTRY" }));
     }

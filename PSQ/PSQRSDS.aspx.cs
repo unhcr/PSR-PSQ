@@ -8,13 +8,13 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class PSQDEMS : System.Web.UI.Page, IQueryParameters
+public partial class PSQRSDS : System.Web.UI.Page, IQueryParameters
 {
   public QueryParameters ParameterSet { get; set; }
 
   #region SQLstatements
   private string dsYears_SelectCommand =
-@"select ASR_YEAR from PSQ_DEMOGRAPHICS_YEARS order by ASR_YEAR desc";
+@"select ASR_YEAR from PSQ_RSD_YEARS order by ASR_YEAR desc";
 
   private string dsCountries_CountryList_SelectCommand =
 @"select CODE, NAME,
@@ -27,7 +27,7 @@ from
     row_number() over (order by SORT_NAME) as ROW_NUMBER,
     SORT_NAME
   from PSQ_COUNTRY_SELECTION
-  where CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_COUNTRIES)
+  where CODE in (select COU_CODE from PSQ_RSD_COUNTRIES)
   union all
   select CODE, NAME, null as ROW_NUMBER, null as SORT_NAME
   from PSQ_ORIGIN_SELECTION
@@ -67,7 +67,14 @@ from
       and LOCR.LOCRT_CODE = 'UNSD'
     inner join PSQ_COUNTRY_SELECTION COU
       on COU.ID = LOCR.LOC_ID_TO
-    where COU.CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_COUNTRIES)))
+    where COU.CODE in (select COU_CODE from PSQ_RSD_COUNTRIES)
+    union all
+    select OGN.ID, OGN.CODE, OGN.NAME, 'COUNTRY' as LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
+      null as ORDER_SEQ, OGN.SORT_NAME
+    from PSQ_ORIGIN_SELECTION OGN
+    cross join PSQ_UNSD_REGION_TREE REG
+    where OGN.CODE = 'XXX'
+    and REG.LOCT_CODE = 'WORLD'))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsCountries_UNHCRTree_SelectCommand =
@@ -103,7 +110,14 @@ from
       and LOCR.LOCRT_CODE = 'HCRRESP'
     inner join PSQ_COUNTRY_SELECTION COU
       on COU.ID = LOCR.LOC_ID_TO
-      and COU.CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_COUNTRIES)))
+      and COU.CODE in (select COU_CODE from PSQ_RSD_COUNTRIES)
+    union all
+    select OGN.ID, OGN.CODE, OGN.NAME, 'COUNTRY' as LOCT_CODE, REG.TREE_LEVEL + 1 as TREE_LEVEL,
+      null as ORDER_SEQ, OGN.SORT_NAME
+    from PSQ_ORIGIN_SELECTION OGN
+    cross join PSQ_UNHCR_REGION_TREE REG
+    where OGN.CODE = 'XXX'
+    and REG.LOCT_CODE = 'UNHCR'))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsOrigins_CountryList_SelectCommand =
@@ -117,7 +131,7 @@ from
     case when CODE = 'XXX' then null else row_number() over (order by SORT_NAME) end as ROW_NUMBER,
     case when CODE = 'XXX' then null else SORT_NAME end as SORT_NAME
   from PSQ_ORIGIN_SELECTION
-  where CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_ORIGINS))
+  where CODE in (select COU_CODE from PSQ_RSD_ORIGINS))
 order by SORT_NAME nulls last";
 
   private string dsOrigins_UNSDTree_SelectCommand =
@@ -156,7 +170,7 @@ from
       and LOCR.LOCRT_CODE = 'UNSD'
     inner join PSQ_ORIGIN_SELECTION OGN
       on OGN.ID = LOCR.LOC_ID_TO
-    where OGN.CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_ORIGINS)))
+    where OGN.CODE in (select COU_CODE from PSQ_RSD_ORIGINS)))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
 
   private string dsOrigins_UNHCRTree_SelectCommand =
@@ -197,7 +211,7 @@ from
       and LOCR.LOCRT_CODE = 'HCRRESP'
     inner join PSQ_ORIGIN_SELECTION COU
       on COU.ID = LOCR.LOC_ID_TO
-      and COU.CODE in (select COU_CODE from PSQ_DEMOGRAPHICS_ORIGINS)))
+      and COU.CODE in (select COU_CODE from PSQ_RSD_ORIGINS)))
 order by ORDER_SEQ, SORT_NAME nulls first, NAME";
   #endregion
   
@@ -213,30 +227,9 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
       ParameterSet.AddSet("OGNSTYLE", new SortedSet<string>(new string[] { "UNSD" }));
     }
 
-    if (!ParameterSet.ContainsKey("BREAKDOWN") && !ParameterSet.ContainsEmptyKey("BREAKDOWN"))
+    if (! ParameterSet.ContainsKey("BREAKDOWN") && ! ParameterSet.ContainsEmptyKey("BREAKDOWN"))
     {
-      ParameterSet.AddSet("BREAKDOWN", new SortedSet<string>(new string[] { "RES", "LOC" }));
-    }
-
-    if (! ParameterSet.ContainsKey("SEXAGE"))
-    {
-      ParameterSet.AddSet("SEXAGE", new SortedSet<string>(new string[] { "AGE" }));
-    }
-
-    if (!ParameterSet.ContainsKey("SUMRES"))
-    {
-      ParameterSet.AddSet("SUMRES", new SortedSet<string>(new string[] { "LOCATION" }));
-    }
-
-    if (! ParameterSet.ContainsKey("SUMOGN"))
-    {
-      ParameterSet.AddSet("SUMOGN", new SortedSet<string>(new string[] { "COUNTRY" }));
-    }
-
-    if (!ParameterSet.ContainsKey("DST"))
-    {
-      ParameterSet.AddSet("DST", new SortedSet<string>(
-        new string[] { "REF", "ROC", "ASY", "RET", "IDP", "IOC", "RDP", "STA", "OOC", "VAR" }));
+      ParameterSet.AddSet("BREAKDOWN", new SortedSet<string>(new string[] { "RES", "OGN", "RSDP", "RSDL" }));
     }
   }
 
@@ -307,29 +300,6 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
       foreach (ListItem item in cblBD.Items)
       {
         item.Selected = ParameterSet["BREAKDOWN"].Contains(item.Value);
-      }
-    }
-
-    if (ParameterSet.ContainsKey("SEXAGE"))
-    {
-      rblSA.SelectedValue = ParameterSet["SEXAGE"].Max;
-    }
-
-    if (ParameterSet.ContainsKey("SUMRES"))
-    {
-      ddlRS.SelectedValue = ParameterSet["SUMRES"].Max;
-    }
-
-    if (ParameterSet.ContainsKey("SUMOGN"))
-    {
-      ddlOG.SelectedValue = ParameterSet["SUMOGN"].Max;
-    }
-
-    if (ParameterSet.ContainsKey("DST"))
-    {
-      foreach (ListItem item in cblPT.Items)
-      {
-        item.Selected = ParameterSet["DST"].Contains(item.Value);
       }
     }
   }
@@ -550,28 +520,5 @@ order by ORDER_SEQ, SORT_NAME nulls first, NAME";
       "BREAKDOWN",
       new SortedSet<string>(
         cblBD.Items.Cast<ListItem>().Where(x => x.Selected).Select(x => x.Value)));
-  }
-
-  protected void rblSA_SelectedIndexChanged(object sender, EventArgs e)
-  {
-    ParameterSet.AddSet("SEXAGE", new SortedSet<string>(new string[] { rblSA.SelectedValue }));
-  }
-
-  protected void cblPT_SelectedIndexChanged(object sender, EventArgs e)
-  {
-    ParameterSet.AddSet(
-      "DST",
-      new SortedSet<string>(
-        cblPT.Items.Cast<ListItem>().Where(x => x.Selected).Select(x => x.Value)));
-  }
-
-  protected void ddlRS_SelectedIndexChanged(object sender, EventArgs e)
-  {
-    ParameterSet.AddSet("SUMRES", new SortedSet<string>(new string[] { ddlRS.SelectedValue }));
-  }
-
-  protected void ddlOG_SelectedIndexChanged(object sender, EventArgs e)
-  {
-    ParameterSet.AddSet("SUMOGN", new SortedSet<string>(new string[] { ddlOG.SelectedValue }));
   }
 }

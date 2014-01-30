@@ -831,6 +831,10 @@ td.numeric input {
 .total-assisted-wide {
   width: 100px;
 }
+.rsd-codes {
+  width: 42px;
+  text-align: center;
+}
 .accent {
   background-color: #d3e6ff;
 }

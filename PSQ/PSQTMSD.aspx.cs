@@ -363,42 +363,42 @@ public partial class PSQTMSD : System.Web.UI.Page, IQueryParameters
       }
       if (ParameterSet.ContainsItem("POPT", "RL"))
       {
-        caption.Append(conjunction + "Persons in a refugee-like situation");
+        caption.Append(conjunction + (i == 0 ? "P" : "p") + "ersons in a refugee-like situation");
         conjunction = (++i == limit) ? " and " : ", ";
       }
       if (ParameterSet.ContainsItem("POPT", "AS"))
       {
-        caption.Append(conjunction + "Asylum-seekers");
+        caption.Append(conjunction + (i == 0 ? "A" : "a") + "sylum-seekers");
         conjunction = (++i == limit) ? " and " : ", ";
       }
       if (ParameterSet.ContainsItem("POPT", "RT"))
       {
-        caption.Append(conjunction + "Returned refugees");
+        caption.Append(conjunction + (i == 0 ? "R" : "r") + "eturned refugees");
         conjunction = (++i == limit) ? " and " : ", ";
       }
       if (ParameterSet.ContainsItem("POPT", "ID"))
       {
-        caption.Append(conjunction + "Internally displaced persons");
+        caption.Append(conjunction + (i == 0 ? "I" : "i") + "nternally displaced persons");
         conjunction = (++i == limit) ? " and " : ", ";
       }
       if (ParameterSet.ContainsItem("POPT", "IL"))
       {
-        caption.Append(conjunction + "Persons in an IDP-like situation");
+        caption.Append(conjunction + (i == 0 ? "P" : "p") + "ersons in an IDP-like situation");
         conjunction = (++i == limit) ? " and " : ", ";
       }
       if (ParameterSet.ContainsItem("POPT", "RD"))
       {
-        caption.Append(conjunction + "Returned IDPs");
+        caption.Append(conjunction + (i == 0 ? "R" : "r") + "eturned IDPs");
         conjunction = (++i == limit) ? " and " : ", ";
       }
       if (ParameterSet.ContainsItem("POPT", "ST"))
       {
-        caption.Append(conjunction + "Persons under UNHCR's statelessness mandate");
+        caption.Append(conjunction + (i == 0 ? "P" : "p") + "ersons under UNHCR's statelessness mandate");
         conjunction = (++i == limit) ? " and " : ", ";
       }
       if (ParameterSet.ContainsItem("POPT", "OC"))
       {
-        caption.Append(conjunction + "Others of concern to UNHCR");
+        caption.Append(conjunction + (i == 0 ? "O" : "o") + "Others of concern to UNHCR");
         conjunction = (++i == limit) ? " and " : ", ";
       }
     }
@@ -407,7 +407,17 @@ public partial class PSQTMSD : System.Web.UI.Page, IQueryParameters
       caption.Append("Persons of concern to UNHCR");
     }
 
-    limit = ParameterSet.ContainsKey("RES") ? ParameterSet["RES"].Count - 1 : -1;
+    limit = (ParameterSet.ContainsKey("RES") ? ParameterSet["RES"].Count : 0) - 1;
+    if (ParameterSet.ContainsKey("RESNAMES"))
+    {
+      limit = limit >= ParameterSet["RESNAMES"].Count ? ParameterSet["RESNAMES"].Count - 1 : limit;
+    }
+    else
+    {
+      limit = -1;
+    }
+
+    conjunction = "";
 
     if (! ParameterSet.ContainsItem("BREAKDOWN", "RES") && limit >= 0 && limit < 5)
     {
@@ -430,7 +440,15 @@ public partial class PSQTMSD : System.Web.UI.Page, IQueryParameters
       }
     }
 
-    limit = ParameterSet.ContainsKey("OGN") ? ParameterSet["OGN"].Count - 1 : -1;
+    limit = (ParameterSet.ContainsKey("OGN") ? ParameterSet["OGN"].Count : 0) - 1;
+    if (ParameterSet.ContainsKey("OGNNAMES"))
+    {
+      limit = limit >= ParameterSet["OGNNAMES"].Count ? ParameterSet["OGNNAMES"].Count - 1 : limit;
+    }
+    else
+    {
+      limit = -1;
+    }
 
     if (! ParameterSet.ContainsItem("BREAKDOWN", "OGN") && limit >= 0 && limit < 5)
     {

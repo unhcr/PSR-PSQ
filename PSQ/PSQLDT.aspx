@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/PSQ.master"
-  Title="UNHCR Population Statistics"CodeFile="PSQLDT.aspx.cs" Inherits="PSQLDT" %>
+  Title="UNHCR Population Statistics - Recent Data" CodeFile="PSQLDT.aspx.cs" Inherits="PSQLDT" %>
 
 <asp:Content ID="HeaderContent" ContentPlaceHolderID="phH" Runat="Server">
 </asp:Content>

@@ -46,8 +46,7 @@
       <p>
         The <asp:LinkButton runat="server" ID="lbtFRS" Text="Quick Queries" PostBackUrl="PSQFRS.aspx" />
         page contains a selection of links to data that are frequently requested, bypassing the need
-        to enter specific query criteria. Note that these queries will open in a new page in your
-        browser.
+        to enter specific query criteria.
       </p>
       <h2>General notes</h2>
       <p>

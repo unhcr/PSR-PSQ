@@ -6,7 +6,7 @@
 
   <div ID="divMainBody" runat="server" class="results">
 
-    <asp:SqlDataSource ID="dsASR_POC_SUMMARY" runat="server"
+    <asp:SqlDataSource ID="dsASR_DEMOGRAPHICS" runat="server"
       ConnectionString="<%$ ConnectionStrings:PSQ %>" 
       ProviderName="<%$ ConnectionStrings:PSQ.ProviderName %>">
       <SelectParameters>
@@ -34,7 +34,7 @@
             <asp:ListItem Text="All" Value="0" />
           </asp:DropDownList>
         </label>
-        <asp:DataPager ID="dpgASR_POC_SUMMARY1" runat="server" PagedControlID="lvwASR_POC_SUMMARY" 
+        <asp:DataPager ID="dpgASR_DEMOGRAPHICS1" runat="server" PagedControlID="lvwASR_DEMOGRAPHICS" 
           PageSize="25" ViewStateMode="Disabled">
           <Fields>
             <asp:NextPreviousPagerField ButtonType="Button"
@@ -46,12 +46,12 @@
       </asp:Label>
       <asp:Button ID="btnNewQuery" runat="server" Text="New Query" PostBackUrl="PSQDEMS.aspx" />
     </div>
-    <asp:ListView ID="lvwASR_POC_SUMMARY" runat="server" DataSourceID="dsASR_POC_SUMMARY" 
-      ItemPlaceholderID="itemPlaceholder" OnDataBound="lvwASR_POC_SUMMARY_DataBound"> 
+    <asp:ListView ID="lvwASR_DEMOGRAPHICS" runat="server" DataSourceID="dsASR_DEMOGRAPHICS" 
+      ItemPlaceholderID="itemPlaceholder" OnDataBound="lvwASR_DEMOGRAPHICS_DataBound"> 
       <LayoutTemplate>
         <table class="standard-table">
           <caption runat="server">
-            <asp:Label ID="capASR_POC_SUMMARY" runat="server" Text="Persons of concern to UNHCR – Overview" />
+            <asp:Label ID="capASR_DEMOGRAPHICS" runat="server" Text="Persons of concern to UNHCR – Overview" />
           </caption>
           <colgroup runat="server">
             <col class="year" />
@@ -257,7 +257,7 @@
       </ItemTemplate>
     </asp:ListView>
     <div class="bottom-pager">
-      <asp:DataPager ID="dpgASR_POC_SUMMARY2" runat="server" PagedControlID="lvwASR_POC_SUMMARY" 
+      <asp:DataPager ID="dpgASR_DEMOGRAPHICS2" runat="server" PagedControlID="lvwASR_DEMOGRAPHICS" 
         PageSize="25" ViewStateMode="Disabled">
         <Fields>
           <asp:NumericPagerField ButtonCount="20" ButtonType="Button" CurrentPageLabelCssClass="current-page-button" />
