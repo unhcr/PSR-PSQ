@@ -27,7 +27,7 @@
     <div class="header">
       <div class="header_caps">
         <div class="header_back">
-          <asp:ImageButton runat="server" ID="ibtHCR" AlternateText="UNHCR" ToolTip="UNHCR PSQ T2.0"
+          <asp:ImageButton runat="server" ID="ibtHCR" AlternateText="UNHCR" ToolTip="UNHCR PSQ R2.0"
             ImageUrl="Images/header_logo.jpg" PostBackUrl="Default.aspx" />
           <div class="navbar">
             <asp:LinkButton runat="server" ID="lbtPOC" Text="Overview" PostBackUrl="PSQPOCS.aspx" />

@@ -398,7 +398,7 @@ public partial class PSQTMSD : System.Web.UI.Page, IQueryParameters
       }
       if (ParameterSet.ContainsItem("POPT", "OC"))
       {
-        caption.Append(conjunction + (i == 0 ? "O" : "o") + "Others of concern to UNHCR");
+        caption.Append(conjunction + (i == 0 ? "O" : "o") + "thers of concern to UNHCR");
         conjunction = (++i == limit) ? " and " : ", ";
       }
     }
