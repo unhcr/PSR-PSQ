@@ -30,18 +30,18 @@
       <div class="residing">
         <h2>Refugees by country / territory of asylum</h2>
         <ul>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=PAK&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Pakistan</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=IRN&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Islamic Republic of Iran</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=DEU&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Germany</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=KEN&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Kenya</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=SYR&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Syrian Arab Republic</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=ETH&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Ethiopia</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=TCD&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Chad</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=JOR&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Jordan</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=TUR&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Turkey</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=YEM&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Yemen</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=BGD&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Bangladesh</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;RES=SDN&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Sudan</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=PAK&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Pakistan</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=IRN&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Islamic Republic of Iran</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=DEU&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Germany</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=KEN&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Kenya</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=SYR&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Syrian Arab Republic</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=ETH&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Ethiopia</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=TCD&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Chad</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=JOR&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Jordan</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=TUR&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Turkey</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=YEM&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Yemen</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=BGD&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Bangladesh</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;RES=SDN&amp;POPT=RF&amp;DRES=N&amp;DPOPT=N" target="_blank">Sudan</a></li>
           <li>
             <asp:DropDownList ID="lbxCOUNTRY" runat="server" ViewStateMode="Disabled" 
               DataSourceID="dsCOUNTRY" DataTextField="COU_NAME_RESIDENCE_EN" DataValueField="COU_CODE_RESIDENCE" 
@@ -52,18 +52,18 @@
       <div class="origin">
         <h2>Refugees by origin</h2>
         <ul>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=AFG&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Afghanistan</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=SOM&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Somalia</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=IRQ&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Iraq</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=SYR&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Syrian Arab Republic</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=SDN&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Sudan</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=COD&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Democratic Republic of the Congo</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=MMR&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Myanmar</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=COL&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Colombia</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=ERI&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Eritrea</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=CHN&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">China</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=SRB,YUG,SCG&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Serbia (and Kosovo: S/RES/1244 (1999))</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;OGN=MLI&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Mali</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=AFG&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Afghanistan</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=SOM&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Somalia</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=IRQ&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Iraq</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=SYR&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Syrian Arab Republic</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=SDN&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Sudan</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=COD&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Democratic Republic of the Congo</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=MMR&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Myanmar</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=COL&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Colombia</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=ERI&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Eritrea</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=CHN&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">China</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=SRB,YUG,SCG&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Serbia (and Kosovo: S/RES/1244 (1999))</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;OGN=MLI&amp;POPT=RF&amp;DOGN=N&amp;DPOPT=N" target="_blank">Mali</a></li>
           <li>
             <asp:DropDownList ID="lbxORIGIN" runat="server" ViewStateMode="Disabled" 
               DataSourceID="dsORIGIN" DataTextField="COU_NAME_ORIGIN_EN" DataValueField="COU_CODE_ORIGIN" 
@@ -73,8 +73,8 @@
       </div>
       <div class="others">
         <ul>
-          <li><a href="PSQ_TMS.aspx?SYR=2000&amp;EYR=2012&amp;POPT=ID&amp;DOGN=N&amp;DPOPT=N" target="_blank">Internally displaced persons protected/assisted by UNHCR</a></li>
-          <li><a href="PSQ_TMS.aspx?SYR=2004&amp;EYR=2012&amp;POPT=ST&amp;DOGN=N&amp;DPOPT=N" target="_blank">Persons falling under UNHCR's statelessness mandate</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2001&amp;EYR=2013&amp;POPT=ID&amp;DOGN=N&amp;DPOPT=N" target="_blank">Internally displaced persons protected/assisted by UNHCR</a></li>
+          <li><a href="PSQ_TMS.aspx?SYR=2004&amp;EYR=2013&amp;POPT=ST&amp;DOGN=N&amp;DPOPT=N" target="_blank">Persons falling under UNHCR's statelessness mandate</a></li>
         </ul>
       </div>
     </div>

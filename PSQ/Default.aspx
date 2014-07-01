@@ -10,7 +10,7 @@
     <div class="main-content">
       <p>
         Welcome to the UNHCR Population Statistics Database. The database currently contains data about UNHCR's
-        populations of concern from the year 2000 up to 2012 and you can use it to investigate different aspects
+        populations of concern from the year 2000 up to 2013 and you can use it to investigate different aspects
         of these populations: their general composition by location of residence or origin, their status (refugees,
         asylum seekers, internally displaced persons, etc.), their evolution over time, and so on.
       </p>
